@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WordLord
 {
     /// <summary>
-    /// Логика взаимодействия для Page1.xaml
+    /// Логика взаимодействия для GamePage.xaml
     /// </summary>
-    public partial class Page1// : Page
+    public partial class GamePage : Page
     {
-        public Page1()
+        public GamePage()
         {
             InitializeComponent();
         }

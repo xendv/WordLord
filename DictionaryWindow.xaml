@@ -1,0 +1,35 @@
+﻿<Window x:Class="WordLord.DictionaryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WordLord"
+        mc:Ignorable="d"
+        Title="DictionaryWindow" Height="450" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DocumentViewer  x:Name="documentViewer">
+            <FixedDocument x:Name="fixedDocument">
+                <FixedDocument.Resources>
+                    <PageContent x:Key="page1">
+                        <FixedPage>
+                            <StackPanel Margin="10" Width="650" Height="900" Background="LightBlue">
+                                <TextBlock Text="Page 2" />
+                            </StackPanel>
+                        </FixedPage>
+                    </PageContent>
+                </FixedDocument.Resources>
+            </FixedDocument>
+        </DocumentViewer>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <Button Content="Сохранить" />
+            <Button Content="Загрузить"   />
+        </StackPanel>
+
+    </Grid>
+
+</Window>
