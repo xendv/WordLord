@@ -26,7 +26,8 @@ namespace WordLord
     /// </summary>
     public partial class MainPage : Page
     {
-        private MainWindow mainWin;
+        public MainWindow mainWin;
+        public bool dictionaryErrors=false;
         //Page curr_page;
         public MainPage()
         {
@@ -52,14 +53,8 @@ namespace WordLord
         {
             DictionaryWindow dictionaryWindow = new DictionaryWindow(this.mainWin);
             dictionaryWindow.Owner = this.mainWin;
-            dictionaryWindow.ShowDialog();
 
 
-
-
-            /*Difference between Show() and ShowDialog() methods
-             is in restricting access to the window that opened new window
-            in the second method*/
 
             /*string tempFileName = System.IO.Path.GetTempPath();
 

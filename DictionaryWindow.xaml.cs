@@ -22,8 +22,17 @@ namespace WordLord
         public DictionaryWindow(MainWindow win)
         {
             InitializeComponent();
-            WordsLoader wordsLoader = new WordsLoader();
-            DictionaryTextBlock.Text = wordsLoader.fileText;
+            WordsLoader wordsLoader = new WordsLoader(this);
+            if (wordsLoader.errorType == "Wrong Content")
+            {
+                MessageBox.Show("Похоже, файл поврежден!\nИсправьте его содержимое", "Ошибка содержания файла");
+            }
+            else this.ShowDialog();
+            /*Difference between Show() and ShowDialog() methods
+             * is in restricting access to the window that opened new window
+             * in the second method*/
+
+            //DictionaryTextBlock.Text = wordsLoader.fileText;
         }
     }
 }
