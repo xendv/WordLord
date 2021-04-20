@@ -19,9 +19,11 @@ namespace WordLord
     /// </summary>
     public partial class DictionaryWindow : Window
     {
-        public DictionaryWindow()
+        public DictionaryWindow(MainWindow win)
         {
             InitializeComponent();
+            WordsLoader wordsLoader = new WordsLoader();
+            DictionaryTextBlock.Text = wordsLoader.fileText;
         }
     }
 }

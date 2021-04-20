@@ -12,19 +12,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DocumentViewer  x:Name="documentViewer">
-            <FixedDocument x:Name="fixedDocument">
-                <FixedDocument.Resources>
-                    <PageContent x:Key="page1">
-                        <FixedPage>
-                            <StackPanel Margin="10" Width="650" Height="900" Background="LightBlue">
-                                <TextBlock Text="Page 2" />
-                            </StackPanel>
-                        </FixedPage>
-                    </PageContent>
-                </FixedDocument.Resources>
-            </FixedDocument>
-        </DocumentViewer>
+       <!-- <DocumentViewer  x:Name="documentViewer">
+            <FixedDocument x:Name="fixedDocument">-->
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Height="228" Width="350" TextAlignment="Center" Name="DictionaryTextBlock" FontSize="20"/>
+
+        <!-- </FixedDocument>
+        </DocumentViewer>-->
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="Сохранить" />
             <Button Content="Загрузить"   />

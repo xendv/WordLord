@@ -50,8 +50,18 @@ namespace WordLord
 
         private void ButtonDictionary_Click(object sender, RoutedEventArgs e)
         {
-            /*DictionaryWindow dictionaryWindow = new DictionaryWindow();
-            string tempFileName = System.IO.Path.GetTempPath();
+            DictionaryWindow dictionaryWindow = new DictionaryWindow(this.mainWin);
+            dictionaryWindow.Owner = this.mainWin;
+            dictionaryWindow.ShowDialog();
+
+
+
+
+            /*Difference between Show() and ShowDialog() methods
+             is in restricting access to the window that opened new window
+            in the second method*/
+
+            /*string tempFileName = System.IO.Path.GetTempPath();
 
             tempFileName = System.IO.Path.Combine(tempFileName, Guid.NewGuid().ToString() + ".xps");
             string filePath = "C:\\Users\\xendv\\source\\repos\\WordLord\\Dictionary.txt";
