@@ -71,10 +71,11 @@ namespace WordLord
             //throw new NotImplementedException();
         }
 
-        public void PrintExistingWordsList()
+        public string GetRandomWord()
         {
-
-            throw new NotImplementedException();
+            Random random = new Random();
+            int w = random.Next(wordsList.Count());
+            return wordsList[w-1].WordFull;
         }
     }
 }

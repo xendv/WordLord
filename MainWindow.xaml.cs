@@ -56,7 +56,11 @@ namespace WordLord
                     break;
             }
         }*/
-        public bool CheckFileErrors(string error)
+        ///<summary>
+        ///Возвращает true и отображает ошибки в файле словаря, если они есть
+        ///и возвращает false, если их нет
+        ///</summary>
+        public bool DisplayDictionaryErrors(string error)
         {
             switch (error)
             {
@@ -68,11 +72,11 @@ namespace WordLord
                     break;
                 case "":
                     {
-                        return true;
+                        return false;
                         //PrintExistingWordsList(ref wordsLoader.GetWords());
                         //this.ShowDialog();
                     }
-                    break;
+                    //break;
                 default:
                     MessageBox.Show("Необработанное исключение!", "ОЙ", MessageBoxButton.OK, MessageBoxImage.Error);
                     /*Difference between Show() and ShowDialog() methods
@@ -80,7 +84,7 @@ namespace WordLord
                      * in the second method*/
                     break;
             }
-            return false;
+            return true;
         }
     }
 }

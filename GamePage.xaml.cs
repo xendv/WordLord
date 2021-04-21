@@ -26,7 +26,12 @@ namespace WordLord
             InitializeComponent();
             ParentWindowMain = win;
             WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
-            win.CheckFileErrors(wordsLoader.errorType);
+            if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
+            {
+                //int wordsCount = wordsLoader.wordsList.Count();
+
+                GameSession game = new GameSession(wordsLoader.GetRandomWord());
+            }
         }
 
         private void ToMainMenuButton_Click(object sender, RoutedEventArgs e)

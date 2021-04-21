@@ -10,9 +10,14 @@ namespace WordLord
     {
         public char letter { get; set; }
         bool guessed = false;
-        List<int> positions = new List<int>();
+        List<int> positions = null;
+        public Letter(char ch)
+        {
+            letter = ch;
+        }
         public Letter(char ch, int pos)
         {
+            positions = new List<int>();
             letter = ch;
             positions.Add(pos);
         }

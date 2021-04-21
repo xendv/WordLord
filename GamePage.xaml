@@ -12,18 +12,26 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="ToMainMenuButton" Grid.Row="0" Content="Назад" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="ToMainMenuButton_Click"/>
+        <Button  Grid.Row="0" x:Name="ToMainMenuButton" Content="Назад" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="ToMainMenuButton_Click"/>
 
-        <TextBlock Grid.Row="1" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
-        <Label Grid.Row="2" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="48"/>
-        <Label  Grid.Row="3" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
-        <TextBox Grid.Row="3"  MaxLength="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" AutomationProperties.HelpText="" MinWidth="40" TextAlignment="Center" />
+
+        <Label Grid.Row="1" x:Name="ScoreNameLabel" Content="Score:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,60,0" FontSize="24"></Label>
+        <Label Grid.Row="1" x:Name="ScoreLabel" Content="15" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="24" BorderThickness="0,0,20,0"></Label>
+
+
+
+        <TextBlock Grid.Row="2" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" />
+        <Label Grid.Row="3" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="72"/>
+        <Label  Grid.Row="4" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
+        <TextBox Grid.Row="4"  MaxLength="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" AutomationProperties.HelpText="" MinWidth="40" TextAlignment="Center" />
         <TextBlock Grid.Row="5" Text="Использованные буквы:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5,0" Margin="20,0" />
         
+
     </Grid>
 </Page>

@@ -11,6 +11,8 @@ namespace WordLord
     {
         public string WordFull { get; set; }
         public List<Letter> letters;
+        private bool guessed;
+        public bool Guessed { get { return guessed; } set { guessed = value; } }
         public Word(string word)
         {
             WordFull = word.ToLower();
@@ -48,6 +50,7 @@ namespace WordLord
                 Console.Write("\n");
             }
         }
+
     }
 
 }
