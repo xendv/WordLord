@@ -5,23 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordLord"
         mc:Ignorable="d"
+DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="DictionaryWindow" Height="450" Width="800">
     <Grid>
-
-        <Grid.RowDefinitions>
+        <ListBox x:Name="WordsListBox" ItemsSource="{Binding wordsList}" SelectionMode="Multiple">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    
+                    <ContentControl>
+                        <local:WordsListItem Word="{Binding Word}"/>
+                    </ContentControl>
+                    
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
        <!-- <DocumentViewer  x:Name="documentViewer">
             <FixedDocument x:Name="fixedDocument">-->
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Height="228" Width="350" TextAlignment="Center" Name="DictionaryTextBlock" FontSize="20"/>
+        <!--<TextBlock Grid.Row="0" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Height="228" Width="350" TextAlignment="Center" Name="DictionaryTextBlock" FontSize="20"/>-->
 
+        
         <!-- </FixedDocument>
         </DocumentViewer>-->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+        <!--<ListBox x:Name="SongList" HorizontalAlignment="Left" Height="278" Margin="10,10,0,0" VerticalAlignment="Top" Width="248"/>
+        <TextBlock HorizontalAlignment="Left" Margin="287,124,0,0" TextWrapping="Wrap" Text="Path" VerticalAlignment="Top" Width="194" Height="22"/>
+        <Label Content="Song Path" HorizontalAlignment="Left" Margin="287,98,0,0" VerticalAlignment="Top" Width="194"/>
+        <Button Content="Add Song" HorizontalAlignment="Left" Margin="10,293,0,0" VerticalAlignment="Top" Width="132" Click="Button_Click"/>
+-->
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="Сохранить" />
             <Button Content="Загрузить"   />
-        </StackPanel>
+        </StackPanel>-->
 
     </Grid>
 

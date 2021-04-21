@@ -41,12 +41,12 @@ namespace WordLord
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
-            this.mainWin.Content = new GamePage();
+            this.mainWin.Content = new GamePage(this.mainWin);
         }
 
         private void ButtonContinue_Click(object sender, RoutedEventArgs e)
         {
-            this.mainWin.Content = new GamePage();
+            //this.mainWin.Content = new GamePage(this.mainWin);
         }
 
         private void ButtonDictionary_Click(object sender, RoutedEventArgs e)

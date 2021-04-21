@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WordLord
 {
-    class Letter
+    public class Letter
     {
         public char letter { get; set; }
         bool guessed = false;

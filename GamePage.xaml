@@ -4,21 +4,26 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WordLord"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GamePage">
+      Title="GamePage" Background="AliceBlue">
+    
 
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
-        <Label Grid.Row="1" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="48"/>
-        <Label  Grid.Row="2" Content="_" HorizontalAlignment="Center" FontSize="36" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
-        <TextBox Grid.Row="2"  MaxLength="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" UseLayoutRounding="False" AutomationProperties.HelpText="_" MinWidth="5" />
-        <TextBlock Grid.Row="3" Text="Использованные буквы:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5,0" />
+        <Button x:Name="ToMainMenuButton" Grid.Row="0" Content="Назад" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="ToMainMenuButton_Click"/>
+
+        <TextBlock Grid.Row="1" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />
+        <Label Grid.Row="2" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="48"/>
+        <Label  Grid.Row="3" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
+        <TextBox Grid.Row="3"  MaxLength="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" AutomationProperties.HelpText="" MinWidth="40" TextAlignment="Center" />
+        <TextBlock Grid.Row="5" Text="Использованные буквы:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5,0" Margin="20,0" />
+        
     </Grid>
 </Page>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WordLord
 {
-    class Word
+    public class Word
     {
         public string WordFull { get; set; }
         public List<Letter> letters;
@@ -15,6 +15,10 @@ namespace WordLord
         {
             WordFull = word.ToLower();
             letters = GetLettersWithPositions(word);
+        }
+        public Word()
+        {
+            WordFull = null;
         }
 
         public List<Letter> GetLettersWithPositions(string word)

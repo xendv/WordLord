@@ -32,8 +32,8 @@ namespace WordLord
                     break;
                 case "":
                     {
-                        wordsLoader.PrintExistingWordsList();
-                        this.ShowDialog();
+                        PrintExistingWordsList(ref wordsLoader.GetWords());
+                        //this.ShowDialog();
                     }
                     break;
                 default:
@@ -46,5 +46,12 @@ namespace WordLord
 
             //DictionaryTextBlock.Text = wordsLoader.fileText;
         }
+        public void PrintExistingWordsList(ref List<Word> words)
+        {
+            this.ShowDialog();
+        
+        }
+        public static readonly DependencyProperty wordsListProperty =
+           DependencyProperty.Register("wordsList", typeof(List<Word>), typeof(DictionaryWindow), new PropertyMetadata(null));
     }
 }

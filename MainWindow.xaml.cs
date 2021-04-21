@@ -22,9 +22,26 @@ namespace WordLord
         public MainWindow()
         {
             InitializeComponent();
-            SetPage(this,"Main");
+            //SetPage(this,"Main");
+            SetPage("Main");
+
         }
-        static public void SetPage(MainWindow win, string page_name)
+        public void SetPage(string page_name)
+        {
+            switch (page_name)
+            {
+                case "Main":
+                    Content = new MainPage(this);
+                    break;
+                case "StartGame":
+                    Content = new GamePage(this);
+                    break;
+                default:
+                    MessageBox.Show("Запрашиваемая страница не найдена");
+                    break;
+            }
+        }
+        /*public void SetPage(MainWindow win, string page_name)
         {
             switch (page_name)
             {
@@ -32,12 +49,38 @@ namespace WordLord
                     win.Content = new MainPage(win);
                     break;
                 case "StartGame":
-                    win.Content = new GamePage();
+                    win.Content = new GamePage(win);
                     break;
                 default:
                     MessageBox.Show("Запрашиваемая страница не найдена");
                     break;
             }
+        }*/
+        public bool CheckFileErrors(string error)
+        {
+            switch (error)
+            {
+                case "Wrong Content":
+                    MessageBox.Show("Похоже, файл поврежден!\nИсправьте его содержимое", "Ошибка содержания файла", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    break;
+                case "No File":
+                    MessageBox.Show("Файл словаря пустой, создаю новый...", "Словарь не найден", MessageBoxButton.OK, MessageBoxImage.Information);
+                    break;
+                case "":
+                    {
+                        return true;
+                        //PrintExistingWordsList(ref wordsLoader.GetWords());
+                        //this.ShowDialog();
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Необработанное исключение!", "ОЙ", MessageBoxButton.OK, MessageBoxImage.Error);
+                    /*Difference between Show() and ShowDialog() methods
+                     * is in restricting access to the window that opened new window
+                     * in the second method*/
+                    break;
+            }
+            return false;
         }
     }
 }

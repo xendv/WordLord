@@ -12,25 +12,38 @@ namespace WordLord
     class WordsLoader
     {
         DictionaryWindow parentWindow;
+        MainWindow parentWindowMain;
         public string errorType = "";
-        public string[] fileLines;
+        public List<Word> wordsList;
         public WordsLoader(DictionaryWindow ParentWindow)
         {
+            this.wordsList = new List<Word>();
             this.parentWindow = ParentWindow;
+            CheckFileExistence();
+        }
+        public WordsLoader(MainWindow ParentWindowMain)
+        {
+            this.wordsList = new List<Word>();
+            this.parentWindowMain = ParentWindowMain;
+            CheckFileExistence();
+        }
+        public void CheckFileExistence()
+        {
+            string[] fileLines;
             string startupPath = Environment.CurrentDirectory;
-            string fileName = @startupPath+"\\Dictionary.TXT";
-            
+            string fileName = @startupPath + "\\Dictionary.TXT";
+
             if (System.IO.File.Exists(fileName))
             {
                 fileLines = File.ReadAllLines(fileName);
-                if (!CheckFileContent())
+                if (!CheckFileContent(fileLines))
                 {
                     errorType = "Wrong Content";
                 }
             }
             else errorType = "No File";
         }
-        public bool CheckFileContent()
+        public bool CheckFileContent(string[] fileLines)
         {
             bool onlyAcceptableChars = true;
             foreach (string line in fileLines)
@@ -42,13 +55,20 @@ namespace WordLord
                     onlyAcceptableChars = false;
                     break;
                 }
+                else
+                {
+                    wordsList.Add(new Word(line));
+                }
             }
             return onlyAcceptableChars;
         }
 
-        internal void PrintWords()
+        public ref List<Word> GetWords()
         {
-            throw new NotImplementedException();
+            return ref wordsList;
+            //parentWindow.WordsList.DataContext = wordsList;
+            //parentWindow.WordsList.ItemsSource = wordsList;
+            //throw new NotImplementedException();
         }
 
         public void PrintExistingWordsList()

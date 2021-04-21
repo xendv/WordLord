@@ -16,22 +16,19 @@ using System.Windows.Shapes;
 namespace WordLord
 {
     /// <summary>
-    /// Логика взаимодействия для GamePage.xaml
+    /// Логика взаимодействия для WordsListItem.xaml
     /// </summary>
-    public partial class GamePage : Page
+    public partial class WordsListItem : UserControl
     {
-        MainWindow ParentWindowMain;
-        public GamePage(MainWindow win)
+        public WordsListItem()
         {
             InitializeComponent();
-            ParentWindowMain = win;
-            WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
-            win.CheckFileErrors(wordsLoader.errorType);
         }
-
-        private void ToMainMenuButton_Click(object sender, RoutedEventArgs e)
+        public string Word
         {
-            ParentWindowMain.SetPage("Main");
+            get { return (string)GetValue(WordProperty); }
+            set { SetValue(WordProperty, value); }
         }
+        public static readonly DependencyProperty WordProperty= DependencyProperty.Register("Word", typeof(Word), typeof(WordsListItem), new PropertyMetadata(new Word()));
     }
 }
