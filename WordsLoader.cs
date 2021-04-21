@@ -11,10 +11,12 @@ namespace WordLord
 {
     class WordsLoader
     {
+        DictionaryWindow parentWindow;
         public string errorType = "";
         public string[] fileLines;
         public WordsLoader(DictionaryWindow ParentWindow)
         {
+            this.parentWindow = ParentWindow;
             string startupPath = Environment.CurrentDirectory;
             string fileName = @startupPath+"\\Dictionary.TXT";
             
@@ -44,9 +46,15 @@ namespace WordLord
             return onlyAcceptableChars;
         }
 
-        public void BuildExistingWordsList()
+        internal void PrintWords()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintExistingWordsList()
         {
 
+            throw new NotImplementedException();
         }
     }
 }

@@ -23,14 +23,26 @@ namespace WordLord
         {
             InitializeComponent();
             WordsLoader wordsLoader = new WordsLoader(this);
-            if (wordsLoader.errorType == "Wrong Content")
-            {
-                MessageBox.Show("Похоже, файл поврежден!\nИсправьте его содержимое", "Ошибка содержания файла");
+            switch (wordsLoader.errorType){
+                case "Wrong Content":
+                    MessageBox.Show("Похоже, файл поврежден!\nИсправьте его содержимое", "Ошибка содержания файла", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    break;
+                case "No File":
+                    MessageBox.Show("Файл словаря пустой, создаю новый...", "Словарь не найден", MessageBoxButton.OK, MessageBoxImage.Information);
+                    break;
+                case "":
+                    {
+                        wordsLoader.PrintExistingWordsList();
+                        this.ShowDialog();
+                    }
+                    break;
+                default:
+                    MessageBox.Show("Необработанное исключение!", "ОЙ", MessageBoxButton.OK, MessageBoxImage.Error);
+                    /*Difference between Show() and ShowDialog() methods
+                     * is in restricting access to the window that opened new window
+                     * in the second method*/
+                    break;
             }
-            else this.ShowDialog();
-            /*Difference between Show() and ShowDialog() methods
-             * is in restricting access to the window that opened new window
-             * in the second method*/
 
             //DictionaryTextBlock.Text = wordsLoader.fileText;
         }
