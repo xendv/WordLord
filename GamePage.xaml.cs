@@ -31,6 +31,19 @@ namespace WordLord
                 //int wordsCount = wordsLoader.wordsList.Count();
 
                 GameSession game = new GameSession(wordsLoader.GetRandomWord());
+                Label newLabel;
+                for (int letterIndex=0; letterIndex<game.wordToGuess.letters.Count(); letterIndex++)
+                {
+                    newLabel = new Label()
+                    {
+                        Margin = new Thickness(10, 10, 0, 0),
+                        Content = "—",
+                        FontSize = 48,
+                        VerticalContentAlignment = VerticalAlignment.Center,
+                        HorizontalContentAlignment = HorizontalAlignment.Center
+                    };
+                WordToGuessStackPanel.Children.Add(newLabel);
+                }
             }
         }
 

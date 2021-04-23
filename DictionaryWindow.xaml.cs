@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,11 +29,27 @@ namespace WordLord
                 PrintExistingWordsList(ref wordsLoader.GetWords());
             }
         }
+        public ObservableCollection<Word> Words { get; set; }
         public void PrintExistingWordsList(ref List<Word> words)
         {
+            WordsListBox.ItemsSource = words;
             this.ShowDialog();
         }
         public static readonly DependencyProperty wordsListProperty =
            DependencyProperty.Register("wordsList", typeof(List<Word>), typeof(DictionaryWindow), new PropertyMetadata(null));
+
+        private void TextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 1)
+            {
+                
+            }
+                
+        }
     }
 }

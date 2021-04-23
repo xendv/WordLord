@@ -45,6 +45,7 @@ namespace WordLord
         }
         public bool CheckFileContent(string[] fileLines)
         {
+            int currID = 0;
             bool onlyAcceptableChars = true;
             foreach (string line in fileLines)
             {
@@ -52,12 +53,15 @@ namespace WordLord
                 Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
                 if (!regex.IsMatch(line))
                 {
+                    wordsList.RemoveRange(0, wordsList.Count());
                     onlyAcceptableChars = false;
                     break;
                 }
                 else
                 {
                     wordsList.Add(new Word(line));
+                    wordsList[currID].WordID = currID;
+                    currID++;
                 }
             }
             return onlyAcceptableChars;
@@ -74,8 +78,9 @@ namespace WordLord
         public string GetRandomWord()
         {
             Random random = new Random();
+            int c = wordsList.Count();
             int w = random.Next(wordsList.Count());
-            return wordsList[w-1].WordFull;
+            return wordsList[w].WordFull;
         }
     }
 }

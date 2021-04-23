@@ -7,7 +7,36 @@
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GamePage" Background="AliceBlue">
-    
+    <Page.Resources>
+        <!--<DataTemplate x:Key="listTemplate">
+            <Grid  VerticalAlignment="Center" Background="#FFABABF3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                    <ColumnDefinition Width="80*"></ColumnDefinition>
+                    <ColumnDefinition Width="15*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <CheckBox Tag="{Binding WordID}" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Grid.Column="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                    <CheckBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="2" ScaleX="2"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </CheckBox.RenderTransform>
+                </CheckBox>
+                <TextBlock Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="10" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"></TextBlock>
+
+                <TextBox Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="10" MouseDoubleClick="TextBox_MouseDoubleClick"></TextBox>
+
+                <Button Grid.Column="2" FontSize="20" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Visibility="Hidden">Сохранить</Button>
+                <Button Grid.Column="3" FontSize="20" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" >Удалить</Button>
+            </Grid>
+
+        </DataTemplate>-->
+    </Page.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -27,7 +56,13 @@
 
 
         <TextBlock Grid.Row="2" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" />
-        <Label Grid.Row="3" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="72"/>
+        <!--<Label Grid.Row="3" Content="Слово" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" FontSize="72"/>-->
+        <StackPanel x:Name="WordToGuessStackPanel" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <!--<Label Margin="10,10" Content="—" FontSize="48" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label Margin="10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">jhkjh</Label>-->
+
+        </StackPanel>
+        
         <Label  Grid.Row="4" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
         <TextBox Grid.Row="4"  MaxLength="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" AutomationProperties.HelpText="" MinWidth="40" TextAlignment="Center" />
         <TextBlock Grid.Row="5" Text="Использованные буквы:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5,0" Margin="20,0" />

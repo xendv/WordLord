@@ -10,8 +10,11 @@ namespace WordLord
     public class Word
     {
         public string WordFull { get; set; }
+        public int WordID { get; set; }
         public List<Letter> letters;
         private bool guessed;
+        private bool isSelected = false;
+        public bool IsSelected { get { return isSelected; } set { isSelected =value;} }
         public bool Guessed { get { return guessed; } set { guessed = value; } }
         public Word(string word)
         {
@@ -49,6 +52,10 @@ namespace WordLord
                 }
                 Console.Write("\n");
             }
+        }
+        public override string ToString()
+        {
+            return WordFull;
         }
 
     }

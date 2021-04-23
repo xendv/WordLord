@@ -11,7 +11,7 @@ namespace WordLord
         string User = null;
         int score;
         List<Letter> guessedLetters;
-        Word wordToGuess;
+        public Word wordToGuess;
         public GameSession(string word)
         {
             score = 15;

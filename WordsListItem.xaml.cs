@@ -24,11 +24,12 @@ namespace WordLord
         {
             InitializeComponent();
         }
-        public string Word
+        /*public string Word
         {
             get { return (string)GetValue(WordProperty); }
             set { SetValue(WordProperty, value); }
         }
         public static readonly DependencyProperty WordProperty= DependencyProperty.Register("Word", typeof(Word), typeof(WordsListItem), new PropertyMetadata(new Word()));
-    }
+   */
+        }
 }
