@@ -31,7 +31,7 @@ namespace WordLord
             {
                 game = new GameSession(wordsLoader.GetRandomWord());
                 UpdateScore();
-
+                
                 //создание textblock'а для каждой буквы слова
                 TextBlock letterTextBlock;
                 for (int letterIndex = 0; letterIndex < game.wordToGuess.WordFull.Length; letterIndex++)
@@ -49,6 +49,7 @@ namespace WordLord
                     };
                     WordToGuessStackPanel.Children.Add(letterTextBlock);
                 }
+                letterToGuessTextBlock.Focus();
                 letterToGuessTextBlock.ToolTip = game.wordToGuess;
             }
         }
@@ -84,22 +85,17 @@ namespace WordLord
                                 tb.Text = letterTG.ToString();
                             }
                         }
+                        if (GuessedAllLetters())
+                        {
+                            MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: "+game.GetScore()+"\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                            ShowEndGameMessageBox(result);
+                        }
                     }
                     letterToGuessTextBlock.Text = "";
                     if (game.GetScore() == 0)
                     {
-                        MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-                        letterToGuessTextBlock.IsEnabled = false;
-                        switch (result)
-                        {
-                            case MessageBoxResult.Yes:
-                                ParentWindowMain.SetPage("StartGame");
-                                break;
-                            case MessageBoxResult.No:
-                                break;
-                            default:
-                                break;
-                        }
+                        MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                        ShowEndGameMessageBox(result);
                     }
                 }
                 else
@@ -112,6 +108,24 @@ namespace WordLord
         private void UpdateScore()
         {
             ScoreLabel.Content = game.GetScore();
+        }
+        private bool GuessedAllLetters()
+        {
+            return !game.wordToGuess.letters.Exists(ltr => !ltr.IsChecked());
+        }
+        public void ShowEndGameMessageBox(MessageBoxResult result)
+        {
+            letterToGuessTextBlock.IsEnabled = false;
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    ParentWindowMain.SetPage("StartGame");
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

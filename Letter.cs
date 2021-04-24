@@ -9,7 +9,7 @@ namespace WordLord
     public class Letter
     {
         public char letter { get; set; }
-        bool guessed = false;
+        private bool guessed = false;
         List<int> positions = null;
         public Letter(char ch)
         {
@@ -29,6 +29,10 @@ namespace WordLord
         public void checkLetter()
         {
             guessed = true;
+        }
+        public bool IsChecked()
+        {
+            return guessed;
         }
         public void AddPosition(int pos)
         {
