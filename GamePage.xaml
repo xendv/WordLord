@@ -8,6 +8,9 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GamePage" Background="AliceBlue">
     <Page.Resources>
+        <ItemsPanelTemplate x:Key="GuessedLetterTemplate">
+            <TextBlock Foreground="{Binding color}" Text="{Binding letter}" HorizontalAlignment="Left" FontSize="20" Padding="5,0" Margin="20,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        </ItemsPanelTemplate>
         <!--<DataTemplate x:Key="listTemplate">
             <Grid  VerticalAlignment="Center" Background="#FFABABF3">
                 <Grid.ColumnDefinitions>
@@ -50,9 +53,8 @@
         <Button  Grid.Row="0" x:Name="ToMainMenuButton" Content="Назад" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="ToMainMenuButton_Click"/>
 
 
-        <Label Grid.Row="1" x:Name="ScoreNameLabel" Content="Score:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,70,0" FontSize="36"></Label>
+        <Label Grid.Row="1" x:Name="ScoreNameLabel" Content="Ваш счёт:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0" FontSize="36"></Label>
         <Label Grid.Row="1" x:Name="ScoreLabel" Content="sc" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="36" BorderThickness="0,0,20,0"></Label>
-
 
 
         <TextBlock Grid.Row="2" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" IsHitTestVisible="False"/>
@@ -69,9 +71,11 @@
             </Grid>
         </Popup>
         <StackPanel Grid.Row="5" Orientation="Horizontal">
-            <TextBlock Text="Использованные буквы:" FontSize="20" HorizontalAlignment="Left" Padding="5,0" Margin="20,0" VerticalAlignment="Center" />
-            <TextBlock Name="guessedLettersTextBlock" HorizontalAlignment="Left" FontSize="20" Padding="5,0" Margin="20,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center"/>
+            <TextBlock Text="Введенные ранее буквы:" FontSize="20" HorizontalAlignment="Left" Padding="5,0" Margin="20,0" VerticalAlignment="Center" />
+            <WrapPanel  Name="guessedLettersWrapPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                
+            </WrapPanel>
         </StackPanel>
-        
+
     </Grid>
 </Page>

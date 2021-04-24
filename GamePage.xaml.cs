@@ -31,7 +31,7 @@ namespace WordLord
             {
                 game = new GameSession(wordsLoader.GetRandomWord());
                 UpdateScore();
-                
+
                 //создание textblock'а для каждой буквы слова
                 TextBlock letterTextBlock;
                 for (int letterIndex = 0; letterIndex < game.wordToGuess.WordFull.Length; letterIndex++)
@@ -67,14 +67,26 @@ namespace WordLord
                 {
                     letterToGuessPopup.IsOpen = false;
                     char letterTG = letterToGuessTextBlock.Text.ToString()[0];
-                    if (!game.GuessALetter(letterTG))
+                    //game.GuessALetter(letterTG);
+                    if (!game.CheckIfGuessedALetter(letterTG))
+                    //(!)
                     {
+                        if (!game.LetterWasTried(letterTG))
+                            game.AddToGuessedAndSort(letterTG);
+                        //if (!game.GuessALetter(letterTG)) { 
                         letterToGuessPopupTextBlock.Text = "Буквы '" + letterTG + "' нет в слове!";
                         letterToGuessPopup.IsOpen = true;
-                        UpdateScore();
+                        UpdateScore();//}
                     }
                     else
                     {
+                        if (!game.LetterWasTried(letterTG))
+                            game.AddToGuessedAndSort(letterTG,true);
+                        else
+                        {
+                            letterToGuessPopupTextBlock.Text = "Буква '" + letterTG + "' уже угадана!";
+                            letterToGuessPopup.IsOpen = true;
+                        }
                         foreach (int pos in game.wordToGuess.GetLetterPositions(letterTG))
                         {
                             //this.FindName(letterTG.ToString());
@@ -85,18 +97,21 @@ namespace WordLord
                                 tb.Text = letterTG.ToString();
                             }
                         }
+                        PrintGuessedWordsWithColors();
                         if (GuessedAllLetters())
                         {
-                            MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: "+game.GetScore()+"\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                            MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
                             ShowEndGameMessageBox(result);
                         }
                     }
+                    PrintGuessedWordsWithColors();
                     letterToGuessTextBlock.Text = "";
                     if (game.GetScore() == 0)
                     {
                         MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
                         ShowEndGameMessageBox(result);
                     }
+                    
                 }
                 else
                 {
@@ -104,6 +119,7 @@ namespace WordLord
                     letterToGuessPopup.IsOpen = true;
                 }
             }
+            else letterToGuessPopup.IsOpen = false;
         }
         private void UpdateScore()
         {
@@ -126,6 +142,35 @@ namespace WordLord
                 default:
                     break;
             }
+        }
+        public void PrintGuessedWordsWithColors()
+        {
+            guessedLettersWrapPanel.Children.Clear();
+            TextBlock guessedLetterTextBlock;
+            foreach (Letter lt in game.GetGuessedLetters())
+            {
+                guessedLetterTextBlock = new TextBlock()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 20,
+                    Padding = new Thickness(5, 0, 0, 0),
+                    Margin = new Thickness(20, 0, 0, 0),
+                    TextWrapping = TextWrapping.Wrap,
+                    Text = lt.letter.ToString().ToUpper()
+                };
+                if (lt.IsChecked())
+                {
+                    guessedLetterTextBlock.Foreground = Brushes.Green;
+                    guessedLetterTextBlock.TextDecorations = TextDecorations.Underline;
+                    guessedLetterTextBlock.FontWeight = FontWeights.Bold;
+                }
+                guessedLettersWrapPanel.Children.Add(guessedLetterTextBlock);
+
+
+                //guessedLettersTextBlock.Text += ' ' + lt.letter.ToString().ToUpper();
+            }
+
         }
     }
 }

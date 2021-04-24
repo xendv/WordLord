@@ -10,7 +10,7 @@ namespace WordLord
     {
         //string User = null;
         private int score;
-        List<Letter> guessedLetters;
+        private List<Letter> guessedLetters;
         public Word wordToGuess;
         public GameSession(string word)
         {
@@ -18,13 +18,40 @@ namespace WordLord
             wordToGuess = new Word(word);
             guessedLetters = new List<Letter>();
         }
-        public bool GuessALetter(char letter)
+        public bool LetterWasTried(char letter)
         {
-            guessedLetters.Add(new Letter(letter));
-            if (wordToGuess.letters.Exists((item) => item.letter == letter))
+            if (!guessedLetters.Exists((item) => item.letter == letter))
             {
-                Letter lt = wordToGuess.letters.Find((item) => item.letter == letter);
+                //AddToGuessed(letter);
+                return false;
+            }
+            else
+                return true;
+        }
+        public void SortGuessedLettersByAlphabet()
+        {
+            guessedLetters.Sort(LettersComparisonByAlphabet);
+        }
+        private int LettersComparisonByAlphabet(Letter lt1, Letter lt2)
+        {
+            if (lt1.letter < lt2.letter)
+            {
+                return -1;
+            }
+            else if (lt1.letter > lt2.letter)
+            {
+                return 1;
+            }
+            else return 0;
+        }
+        public bool CheckIfGuessedALetter(char letter)
+        {
+            //LetterWasGuessed(letter);//поменять порядок
+            if (wordToGuess.CheckLetterExistence(letter))
+            {
+                Letter lt = wordToGuess.FindLetterObjByChar(letter);
                 lt.checkLetter();
+                //lt.color = "Green";
                 return true;
             }
             else
@@ -32,6 +59,16 @@ namespace WordLord
                 score--;
                 return false;
             }
+
+        }
+        public void AddToGuessedAndSort(char letter, bool isGuessed=false)
+        {
+            guessedLetters.Add(new Letter(letter, isGuessed));
+            SortGuessedLettersByAlphabet();
+        }
+        public List<Letter> GetGuessedLetters()
+        {
+            return guessedLetters;
         }
         public int GetScore()
         {

@@ -9,12 +9,13 @@ namespace WordLord
     public class Letter
     {
         public char letter { get; set; }
+        public int letterID { get; set; }
         private bool guessed = false;
         List<int> positions = null;
-        public Letter(char ch)
+        /*public Letter(char ch)
         {
             letter = ch;
-        }
+        }*/
         public Letter(char ch, int pos)
         {
             positions = new List<int>();
@@ -24,6 +25,12 @@ namespace WordLord
         public Letter(int pos)
         {
             positions.Add(pos);
+        }
+        public Letter(char ch, bool isGuessed=false)
+        {
+            letter = ch;
+            if (isGuessed)
+                checkLetter();
         }
 
         public void checkLetter()

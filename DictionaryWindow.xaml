@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordLord"
         mc:Ignorable="d"
-DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="DictionaryWindow" Width="595" MaxWidth="600">
     <Window.Resources>
         <DataTemplate x:Key="listTemplate">
