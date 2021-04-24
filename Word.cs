@@ -19,6 +19,7 @@ namespace WordLord
         public Word(string word)
         {
             WordFull = word.ToLower();
+            //letters = new List<Letter>();
             letters = GetLettersWithPositions(word);
         }
         public Word()
@@ -26,7 +27,7 @@ namespace WordLord
             WordFull = null;
         }
 
-        public List<Letter> GetLettersWithPositions(string word)
+        private List<Letter> GetLettersWithPositions(string word)
         {
             List<Letter> lts = new List<Letter>();
             for (int ch_index = 0; ch_index < word.Length; ch_index++)
@@ -34,7 +35,7 @@ namespace WordLord
                 char ch = word[ch_index];
                 if (lts.Exists((item) => item.letter == ch)) // using Predicate
                 {
-                    lts.Find((item) => item.letter == ch).AddPosition(ch_index);
+                    FindLetterObjByChar(ref lts, ch).AddPosition(ch_index);
                 }
                 else
                     lts.Add(new Letter(ch, ch_index));
@@ -57,7 +58,14 @@ namespace WordLord
         {
             return WordFull;
         }
-
+        public List<int> GetLetterPositions(char ch)
+        {
+            return FindLetterObjByChar(ref letters, ch).GetPositions();
+        }
+        public Letter FindLetterObjByChar(ref List<Letter> lts, char ch)
+        {
+            return lts.Find((item) => item.letter == ch);// using Predicate
+        }
     }
 
 }

@@ -22,9 +22,7 @@ namespace WordLord
         public MainWindow()
         {
             InitializeComponent();
-            //SetPage(this,"Main");
             SetPage("Main");
-
         }
         public void SetPage(string page_name)
         {
@@ -41,21 +39,6 @@ namespace WordLord
                     break;
             }
         }
-        /*public void SetPage(MainWindow win, string page_name)
-        {
-            switch (page_name)
-            {
-                case "Main":
-                    win.Content = new MainPage(win);
-                    break;
-                case "StartGame":
-                    win.Content = new GamePage(win);
-                    break;
-                default:
-                    MessageBox.Show("Запрашиваемая страница не найдена");
-                    break;
-            }
-        }*/
         ///<summary>
         ///Возвращает true и отображает ошибки в файле словаря, если они есть
         ///и возвращает false, если их нет
