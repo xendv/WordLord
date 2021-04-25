@@ -39,8 +39,6 @@ namespace WordLord
                     letterTextBlock = new TextBlock()
                     {
                         Tag = game.wordToGuess.WordFull[letterIndex],
-                        //Name = game.wordToGuess.WordFull[letterIndex].ToString(),
-                        //Name = letterIndex.ToString(),
                         Margin = new Thickness(10, 10, 0, 0),
                         Text = "-",
                         FontSize = 48,
@@ -66,17 +64,14 @@ namespace WordLord
                 if (letterToGuessTextBlock.Text.Length != 0)
                 {
                     letterToGuessPopup.IsOpen = false;
-                    char letterTG = letterToGuessTextBlock.Text.ToString()[0];
-                    //game.GuessALetter(letterTG);
+                    char letterTG = letterToGuessTextBlock.Text.ToString().ToLower()[0];
                     if (!game.CheckIfGuessedALetter(letterTG))
-                    //(!)
                     {
                         if (!game.LetterWasTried(letterTG))
                             game.AddToGuessedAndSort(letterTG);
-                        //if (!game.GuessALetter(letterTG)) { 
                         letterToGuessPopupTextBlock.Text = "Буквы '" + letterTG + "' нет в слове!";
                         letterToGuessPopup.IsOpen = true;
-                        UpdateScore();//}
+                        UpdateScore();
                     }
                     else
                     {
@@ -166,11 +161,20 @@ namespace WordLord
                     guessedLetterTextBlock.FontWeight = FontWeights.Bold;
                 }
                 guessedLettersWrapPanel.Children.Add(guessedLetterTextBlock);
-
-
-                //guessedLettersTextBlock.Text += ' ' + lt.letter.ToString().ToUpper();
             }
 
+        }
+
+        private void letterToGuessTextBlock_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            char inp = e.Text.ToLower()[0];
+            if (inp < 'а' || inp > 'я')
+                e.Handled = true;
+        }
+
+        private void letterToGuessTextBlock_OnPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            e.CancelCommand();
         }
     }
 }
