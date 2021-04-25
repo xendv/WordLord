@@ -6,15 +6,41 @@
         xmlns:local="clr-namespace:WordLord"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="DictionaryWindow" Width="595" MaxWidth="600">
+        Title="DictionaryWindow" Width="595" MaxWidth="600" Background="Lavender" >
     <Window.Resources>
-        <DataTemplate x:Key="listTemplate">
-            <Grid  VerticalAlignment="Center" Background="#FFABABF3">
+        <!--<Style x:Key="{x:Type ListBox}" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border 
+                             Name="Border"
+                            Padding="2"
+                            SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="false">
+                                <Setter TargetName="Border" Property="Background"
+                    Value="{StaticResource SelectedBackgroundBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground"
+                    Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+
+        <DataTemplate x:Key="listTemplate" >
+            <!--<ListBoxItem Focusable="False" Background="Lavender">-->
+            <Grid  VerticalAlignment="Stretch" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"></ColumnDefinition>
-                    <ColumnDefinition Width="80*"></ColumnDefinition>
-                    <ColumnDefinition Width="15*"></ColumnDefinition>
-                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Tag="{Binding WordID}" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Grid.Column="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
@@ -27,24 +53,29 @@
                         </TransformGroup>
                     </CheckBox.RenderTransform>
                 </CheckBox>
-                <TextBlock Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="10" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"></TextBlock>
+                <TextBlock Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="5" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"></TextBlock>
 
-                <TextBox Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="10" MouseDoubleClick="TextBox_MouseDoubleClick"></TextBox>
-
-                <Button Grid.Column="2" FontSize="20" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Visibility="Hidden">Сохранить</Button>
-                <Button Grid.Column="3" FontSize="20" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" >Удалить</Button>
+                <TextBox Text="{Binding WordFull}" Grid.Column="1" FontSize="20" Margin="5" MouseDoubleClick="TextBox_MouseDoubleClick"></TextBox>
+                <Button Grid.Column="2" FontSize="20" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center">Изменить</Button>
+                <Button Grid.Column="2" FontSize="20" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center" Visibility="Hidden">Сохранить</Button>
+                <Button Grid.Column="3" FontSize="20" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" >Удалить</Button>
             </Grid>
-
+            <!--</ListBoxItem>-->
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="0" x:Name="WordsListBox" ItemTemplate="{StaticResource listTemplate}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" IsSynchronizedWithCurrentItem="True" Focusable="False">
-            <!-- <ListBox.ItemTemplate>
+        <GroupBox Background="White" Grid.Row="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5" Header="Словарь">
+            <ItemsControl x:Name="WordsListBox" ItemTemplate="{StaticResource listTemplate}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Focusable="False">
+                <!--IsSynchronizedWithCurrentItem="True"-->
+                <!-- <ListBox.ItemTemplate>
                 <DataTemplate>
                   В ЛИСТБОКС  ItemsSource="{Binding WordsListItem}"
                     <ContentControl>
@@ -54,22 +85,28 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
              -->
-        </ListBox>
+            </ItemsControl>
 
-        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
+        </GroupBox>
 
-            <TextBlock Grid.Row="0" Grid.Column="0"></TextBlock>
-            <Button  Grid.Row="0" Grid.Column="1" Content="Добавить слово" HorizontalContentAlignment="Center" Margin="10" />
-            <Button Grid.Row="1" Content="Удалить выделенное" Margin="10" Grid.ColumnSpan="2" />
-        </Grid>
+        <GroupBox Background="White" Grid.Row="1" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5">
+            <Grid  HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBox SpellCheck.IsEnabled="True" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="18" Margin="10" MinWidth="150"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="Добавить слово" HorizontalContentAlignment="Center" Margin="10" FontSize="18"/>
+                <Button Grid.Row="1" Content="Удалить выделенное" Margin="10" Grid.ColumnSpan="2" FontSize="18"/>
+            </Grid>
+        </GroupBox>
+
+
     </Grid>
 
 

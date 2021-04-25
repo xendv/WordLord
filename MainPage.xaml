@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WordLord"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Игра WordLord" >
+      Title="Игра WordLord" Background="Lavender" >
 
     <StackPanel ScrollViewer.HorizontalScrollBarVisibility="Auto" Orientation="Horizontal" HorizontalAlignment="Center">
         <!--<Label Margin="5">Пример обычной страницы</Label>-->

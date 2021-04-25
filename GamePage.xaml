@@ -65,7 +65,7 @@
         <Label  Grid.Row="4" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
         <TextBox Name="letterToGuessTextBlock" ToolTip=""  Grid.Row="4"  MaxLength="1" DataObject.Pasting="letterToGuessTextBlock_OnPasting" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" MinWidth="40" TextAlignment="Center" KeyDown="letterToGuess_KeyDown" PreviewTextInput="letterToGuessTextBlock_PreviewTextInput"/>
         <Popup Name="letterToGuessPopup" PlacementTarget="{Binding ElementName=letterToGuessTextBlock}" Placement="Right"
-               StaysOpen="{Binding ElementName=letterToGuessTextBlock, Path=IsMouseCaptureWithin}">
+               StaysOpen="{Binding ElementName=letterToGuessTextBlock, Path=IsMouseCaptureWithin}" PopupAnimation="Fade" AllowsTransparency="True" >
             <Grid Background="White">
                 <TextBlock  Name="letterToGuessPopupTextBlock" FontSize="20"></TextBlock>
             </Grid>
