@@ -76,7 +76,7 @@ namespace WordLord
                     else
                     {
                         if (!game.LetterWasTried(letterTG))
-                            game.AddToGuessedAndSort(letterTG,true);
+                            game.AddToGuessedAndSort(letterTG, true);
                         else
                         {
                             letterToGuessPopupTextBlock.Text = "Буква '" + letterTG + "' уже угадана!";
@@ -106,7 +106,7 @@ namespace WordLord
                         MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
                         ShowEndGameMessageBox(result);
                     }
-                    
+
                 }
                 else
                 {
@@ -116,14 +116,17 @@ namespace WordLord
             }
             else letterToGuessPopup.IsOpen = false;
         }
+
         private void UpdateScore()
         {
             ScoreLabel.Content = game.GetScore();
         }
+
         private bool GuessedAllLetters()
         {
             return !game.wordToGuess.letters.Exists(ltr => !ltr.IsChecked());
         }
+
         public void ShowEndGameMessageBox(MessageBoxResult result)
         {
             letterToGuessTextBlock.IsEnabled = false;
@@ -138,6 +141,7 @@ namespace WordLord
                     break;
             }
         }
+
         public void PrintGuessedWordsWithColors()
         {
             guessedLettersWrapPanel.Children.Clear();
@@ -162,7 +166,6 @@ namespace WordLord
                 }
                 guessedLettersWrapPanel.Children.Add(guessedLetterTextBlock);
             }
-
         }
 
         private void letterToGuessTextBlock_PreviewTextInput(object sender, TextCompositionEventArgs e)

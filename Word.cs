@@ -58,6 +58,7 @@ namespace WordLord
         {
             return WordFull;
         }
+
         /// <summary>
         /// Возвращает позиции Letter с заданным символьным значением в объекте Word 
         /// </summary>
@@ -67,14 +68,17 @@ namespace WordLord
         {
             return FindLetterObjByChar(ch).GetPositions();
         }
+
         public bool CheckLetterExistence(char ch)
         {
             return letters.Exists((item) => item.letter == ch);// using Predicate
         }
+
         public bool CheckLetterExistence(ref List<Letter> lts, char ch)
         {
             return lts.Exists((item) => item.letter == ch);// using Predicate
         }
+
         /// <summary>
         /// Возвращает объект Letter в объекте Word с заданным символьным значением
         /// </summary>
@@ -84,6 +88,7 @@ namespace WordLord
         {
             return letters.Find((item) => item.letter == ch);// using Predicate
         }
+
         /// <summary>
         /// Возвразает объект Letter в списке Letter-обектов List<Letter> с заданным символьным значением
         /// </summary>

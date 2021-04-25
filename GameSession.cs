@@ -12,12 +12,14 @@ namespace WordLord
         private int score;
         private List<Letter> guessedLetters;
         public Word wordToGuess;
+
         public GameSession(string word)
         {
             score = 15;
             wordToGuess = new Word(word);
             guessedLetters = new List<Letter>();
         }
+
         public bool LetterWasTried(char letter)
         {
             if (!guessedLetters.Exists((item) => item.letter == letter))
@@ -28,10 +30,12 @@ namespace WordLord
             else
                 return true;
         }
+
         public void SortGuessedLettersByAlphabet()
         {
             guessedLetters.Sort(LettersComparisonByAlphabet);
         }
+
         private int LettersComparisonByAlphabet(Letter lt1, Letter lt2)
         {
             if (lt1.letter < lt2.letter)
@@ -44,6 +48,7 @@ namespace WordLord
             }
             else return 0;
         }
+
         public bool CheckIfGuessedALetter(char letter)
         {
             //LetterWasGuessed(letter);//поменять порядок
@@ -59,21 +64,24 @@ namespace WordLord
                 score--;
                 return false;
             }
-
         }
+
         public void AddToGuessedAndSort(char letter, bool isGuessed=false)
         {
             guessedLetters.Add(new Letter(letter, isGuessed));
             SortGuessedLettersByAlphabet();
         }
+
         public List<Letter> GetGuessedLetters()
         {
             return guessedLetters;
         }
+
         public int GetScore()
         {
             return score;
         }
+
         public void SetScore(int value)
         {
             score = value;

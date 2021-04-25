@@ -11,22 +11,25 @@ namespace WordLord
 {
     class WordsLoader
     {
-        DictionaryWindow parentWindow;
-        MainWindow parentWindowMain;
+        //DictionaryWindow parentWindow;
+        //MainWindow parentWindowMain;
         public string errorType = "";
         public List<Word> wordsList;
+
         public WordsLoader(DictionaryWindow ParentWindow)
         {
             this.wordsList = new List<Word>();
-            this.parentWindow = ParentWindow;
+            //this.parentWindow = ParentWindow;
             CheckFileExistence();
         }
+
         public WordsLoader(MainWindow ParentWindowMain)
         {
             this.wordsList = new List<Word>();
-            this.parentWindowMain = ParentWindowMain;
+            //this.parentWindowMain = ParentWindowMain;
             CheckFileExistence();
         }
+
         public void CheckFileExistence()
         {
             string[] fileLines;
@@ -43,6 +46,7 @@ namespace WordLord
             }
             else errorType = "No File";
         }
+
         public bool CheckFileContent(string[] fileLines)
         {
             int currID = 0;
