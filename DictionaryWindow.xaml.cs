@@ -21,6 +21,7 @@ namespace WordLord
     /// </summary>
     public partial class DictionaryWindow : Window
     {
+        List<Word> wordsFromDictionary;
         public DictionaryWindow(MainWindow win)
         {
             InitializeComponent();
@@ -33,8 +34,16 @@ namespace WordLord
         public ObservableCollection<Word> Words { get; set; }
         public void PrintExistingWordsList(ref List<Word> words)
         {
-            WordsListBox.ItemsSource = words;
+            UpdateWords(ref words);
+            WordsListBox.ItemsSource = wordsFromDictionary;
+            //Binding binding = BindingOperations.GetBinding(WordsListBox, ItemsControl.ItemsSourceProperty);
+            //binding.Mode = BindingMode.TwoWay;
             this.ShowDialog();
+        }
+
+        public void UpdateWords(ref List<Word> words)
+        {
+            wordsFromDictionary = words;
         }
         public static readonly DependencyProperty wordsListProperty =
            DependencyProperty.Register("wordsList", typeof(List<Word>), typeof(DictionaryWindow), new PropertyMetadata(null));
@@ -77,14 +86,17 @@ namespace WordLord
         private void checkWordCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox chbx = sender as CheckBox;
-            if (checkAllCheckBox.IsChecked == true)
+            if (checkAllCheckBox.IsChecked == true && !wordsFromDictionary.Exists(x => x.IsSelected==false))
                 checkAllCheckBox.IsChecked = false;
 
         }
 
         private void checkAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //IEnumerable<CheckBox> checkBoxes = ;
+            foreach (Word w in wordsFromDictionary)
+            {
+                w.IsSelected = true;
+            }
         }
     }
 }
