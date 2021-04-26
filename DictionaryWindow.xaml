@@ -42,7 +42,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Tag="{Binding WordID}" IsChecked="{Binding IsSelected}" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Grid.Column="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <CheckBox Tag="WordsListItemCheckBox" Unchecked="checkWordCheckBox_Unchecked" VerticalAlignment="Center" Margin="10" HorizontalAlignment="Center" Grid.Column="0" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
                     <CheckBox.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform ScaleY="2" ScaleX="2"/>
@@ -114,7 +114,7 @@
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="20*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <CheckBox VerticalAlignment="Center" Margin="25,20,10,15" HorizontalAlignment="Center" Grid.Column="0" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                    <CheckBox Name="checkAllCheckBox" VerticalAlignment="Center" Margin="25,20,10,15" HorizontalAlignment="Center" Grid.Column="0" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5" Checked="checkAllCheckBox_Checked">
                         <CheckBox.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleY="2" ScaleX="2"/>

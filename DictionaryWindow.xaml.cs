@@ -73,5 +73,18 @@ namespace WordLord
         {
             e.CancelCommand();
         }
+
+        private void checkWordCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chbx = sender as CheckBox;
+            if (checkAllCheckBox.IsChecked == true)
+                checkAllCheckBox.IsChecked = false;
+
+        }
+
+        private void checkAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            //IEnumerable<CheckBox> checkBoxes = ;
+        }
     }
 }
