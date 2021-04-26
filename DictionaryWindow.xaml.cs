@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace WordLord
 {
@@ -50,6 +51,22 @@ namespace WordLord
                 
             }
                 
+        }
+
+        private void newWordTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            char inp = e.Text[0];
+            if (inp < 'а' || inp > 'я')
+                e.Handled = true;
+            else if (inp >= 'А' && inp <= 'Я')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void newWordTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            newWordTextBoxPopup.IsOpen = true;
         }
     }
 }

@@ -38,15 +38,7 @@ namespace WordLord
 
         private int LettersComparisonByAlphabet(Letter lt1, Letter lt2)
         {
-            if (lt1.letter < lt2.letter)
-            {
-                return -1;
-            }
-            else if (lt1.letter > lt2.letter)
-            {
-                return 1;
-            }
-            else return 0;
+            return String.Compare(lt1.letter.ToString(), lt2.letter.ToString());
         }
 
         public bool CheckIfGuessedALetter(char letter)

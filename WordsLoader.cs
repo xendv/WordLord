@@ -73,6 +73,7 @@ namespace WordLord
 
         public ref List<Word> GetWords()
         {
+            SortWordsByAlphabet();
             return ref wordsList;
             //parentWindow.WordsList.DataContext = wordsList;
             //parentWindow.WordsList.ItemsSource = wordsList;
@@ -85,6 +86,22 @@ namespace WordLord
             int c = wordsList.Count();
             int w = random.Next(wordsList.Count());
             return wordsList[w].WordFull;
+        }
+        public void SortWordsByAlphabet()
+        {
+            wordsList.Sort(WordsComparisonByAlphabet);
+        }
+
+        /// <summary>
+        /// Возвращает -1, если значение первого слова идет раньше по алфавиту,
+        /// 0 если значения равны и 1, если значение первого слова идет позже по алфавиту
+        /// </summary>
+        /// <param name="word1"></param>
+        /// <param name="word2"></param>
+        /// <returns></returns>
+        private int WordsComparisonByAlphabet(Word word1, Word word2)
+        {
+            return String.Compare(word1.WordFull, word2.WordFull);
         }
     }
 }

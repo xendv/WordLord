@@ -34,8 +34,7 @@
         </Style>-->
 
         <DataTemplate x:Key="listTemplate" >
-            <!--<ListBoxItem Focusable="False" Background="Lavender">-->
-            <Grid  VerticalAlignment="Stretch" >
+            <Grid Name="DictionaryGrid" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"></ColumnDefinition>
                     <ColumnDefinition Width="20*"></ColumnDefinition>
@@ -63,7 +62,8 @@
             <!--</ListBoxItem>-->
         </DataTemplate>
     </Window.Resources>
-    <Grid >
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -73,9 +73,23 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Background="White" Grid.Row="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5" Header="Словарь">
-            <ItemsControl x:Name="WordsListBox" ItemTemplate="{StaticResource listTemplate}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Focusable="False">
-                <!--IsSynchronizedWithCurrentItem="True"-->
-                <!-- <ListBox.ItemTemplate>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition ></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                <ItemsControl Grid.Row="0" x:Name="WordsListBox" ItemTemplate="{StaticResource listTemplate}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Focusable="False" ScrollViewer.CanContentScroll="True">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer x:Name="ScrollViewer" CanContentScroll="True" Padding="{TemplateBinding Padding}">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <!--IsSynchronizedWithCurrentItem="True"-->
+                    <!-- <ListBox.ItemTemplate>
                 <DataTemplate>
                   В ЛИСТБОКС  ItemsSource="{Binding WordsListItem}"
                     <ContentControl>
@@ -85,8 +99,27 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
              -->
-            </ItemsControl>
+                </ItemsControl>
 
+
+                <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="20*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <CheckBox VerticalAlignment="Center" Margin="25,20,10,15" HorizontalAlignment="Center" Grid.Column="0" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                        <CheckBox.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="2" ScaleX="2"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
+                    <TextBlock Text="Выбрать все" Grid.Column="1" FontSize="15" Margin="5" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
         </GroupBox>
 
         <GroupBox Background="White" Grid.Row="1" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5">
@@ -100,7 +133,16 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBox SpellCheck.IsEnabled="True" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="18" Margin="10" MinWidth="150"/>
+                <TextBox Name="newWordTextBox" SpellCheck.IsEnabled="True" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="18" Margin="10" MinWidth="150" PreviewTextInput="newWordTextBox_PreviewTextInput" GotMouseCapture="newWordTextBox_GotMouseCapture"/>
+                <Popup Name="newWordTextBoxPopup" PlacementTarget="{Binding ElementName=newWordTextBox}" Placement="Bottom"
+                       StaysOpen="{Binding ElementName=newWordTextBox, Path=IsMouseCaptureWithin}" PopupAnimation="Fade" AllowsTransparency="True" >
+                    <Grid>
+                        <Grid.Background>
+                            <SolidColorBrush Color="White" Opacity="0.7"/>
+                        </Grid.Background>
+                        <TextBlock Name="newWordTextBoxPopupTextBlock" Text="допустимы только русские строчные буквы" FontSize="15"  Margin="5,5,5,5"/>
+                    </Grid>
+                </Popup>
                 <Button Grid.Row="0" Grid.Column="1" Content="Добавить слово" HorizontalContentAlignment="Center" Margin="10" FontSize="18"/>
                 <Button Grid.Row="1" Content="Удалить выделенное" Margin="10" Grid.ColumnSpan="2" FontSize="18"/>
             </Grid>
