@@ -68,5 +68,10 @@ namespace WordLord
         {
             newWordTextBoxPopup.IsOpen = true;
         }
+
+        private void newWordTextBox_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            e.CancelCommand();
+        }
     }
 }

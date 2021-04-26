@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WordLord"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="DictionaryWindow" Width="595" MaxWidth="600" Background="Lavender" >
+        Title="DictionaryWindow" Width="595" MaxWidth="600" Background="#FFC1B4FF" >
     <Window.Resources>
         <!--<Style x:Key="{x:Type ListBox}" TargetType="ListBoxItem">
             <Setter Property="Template">
@@ -72,7 +72,7 @@
             <ColumnDefinition ></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <GroupBox Background="White" Grid.Row="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5" Header="Словарь">
+        <GroupBox Background="Lavender" Grid.Row="0" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5" Header="Словарь">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition ></RowDefinition>
@@ -102,7 +102,14 @@
                 </ItemsControl>
 
 
-                <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                <Grid Grid.Row="1" VerticalAlignment="Center">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFCFA7F0" Offset="0"/>
+                            <GradientStop Color="#FFCFA7F0" Offset="1"/>
+                            <GradientStop Color="Lavender" Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="20*"></ColumnDefinition>
@@ -122,7 +129,14 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Background="White" Grid.Row="1" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5">
+        <GroupBox Grid.Row="1" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="5">
+            <GroupBox.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFCFA7F0" Offset="0"/>
+                    <GradientStop Color="#FFCFA7F0" Offset="1"/>
+                    <GradientStop Color="Lavender" Offset="0.5"/>
+                </LinearGradientBrush>
+            </GroupBox.Background>
             <Grid  HorizontalAlignment="Center" VerticalAlignment="Center" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -133,7 +147,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <TextBox Name="newWordTextBox" SpellCheck.IsEnabled="True" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="18" Margin="10" MinWidth="150" PreviewTextInput="newWordTextBox_PreviewTextInput" GotMouseCapture="newWordTextBox_GotMouseCapture"/>
+                <TextBox Name="newWordTextBox" SpellCheck.IsEnabled="True" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontSize="18" Margin="10" MinWidth="150" PreviewTextInput="newWordTextBox_PreviewTextInput" GotMouseCapture="newWordTextBox_GotMouseCapture"  DataObject.Pasting="newWordTextBox_Pasting"/>
                 <Popup Name="newWordTextBoxPopup" PlacementTarget="{Binding ElementName=newWordTextBox}" Placement="Bottom"
                        StaysOpen="{Binding ElementName=newWordTextBox, Path=IsMouseCaptureWithin}" PopupAnimation="Fade" AllowsTransparency="True" >
                     <Grid>
