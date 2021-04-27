@@ -31,14 +31,22 @@ namespace WordLord
             wordsLoader = new WordsLoader(this);
             if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
             {
-                PrintExistingWordsList(ref wordsLoader.GetWords());
+                List<Word> tempList = wordsLoader.GetWords();
+                wordsFromDictionary = new List<Word>(tempList.Count());
+                foreach (Word w in tempList)
+                {
+                    wordsFromDictionary.Add(w);
+                }
+                //wordsLoader.GetWords().Clo(wordsFromDictionary.ToArray());
+                
+                PrintExistingWordsList(wordsLoader.GetWords());
                 this.ShowDialog();
             }
         }
-        public ObservableCollection<Word> Words { get; set; }
-        public void PrintExistingWordsList(ref List<Word> words)
+        //public ObservableCollection<Word> Words { get; set; }
+        public void PrintExistingWordsList(List<Word> words)
         {
-            UpdateWords(ref words);
+            //UpdateWords(ref words);
             WordsListBox.ItemsSource = wordsFromDictionary;
         }
 
@@ -160,13 +168,13 @@ namespace WordLord
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
+            if (!wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
             {
-                MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                CloseDictionaryMessageBox(result);
+                MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\n\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                CloseDictionaryMessageBox(result,e);
             }
         }
-        public void CloseDictionaryMessageBox(MessageBoxResult result)
+        public void CloseDictionaryMessageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
         {
            
             switch (result)
@@ -175,9 +183,12 @@ namespace WordLord
                     wordsLoader.RewriteFileContent(wordsFromDictionary);
                     break;
                 case MessageBoxResult.No:
-                    this.Close();
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
                     break;
                 default:
+                    MessageBox.Show("Некорректный обработчик кнопок!");
                     break;
             }
         }

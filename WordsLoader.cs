@@ -22,7 +22,7 @@ namespace WordLord
         {
             this.wordsList = new List<Word>();
             //this.parentWindow = ParentWindow;
-           
+
             this.fileName = @startupPath + "\\Dictionary.TXT";
             CheckFileExistence();
         }
@@ -120,10 +120,15 @@ namespace WordLord
             return lWords.SequenceEqual(wordsList);
         }
 
-        public ref List<Word> GetWords()
+        public ref List<Word> GetWordsRef()
         {
             SortWordsByAlphabet();
             return ref wordsList;
+        }
+        public List<Word> GetWords()
+        {
+            SortWordsByAlphabet();
+            return wordsList;
         }
 
         public string GetRandomWord()
