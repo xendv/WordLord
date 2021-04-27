@@ -128,7 +128,7 @@ namespace WordLord
             //if (e.Key == Key.Space) ; Убрать ввод пробелов!!
             if (e.Key == Key.Enter && newWordTextBox.Text.Trim().Length != 0)
             {
-                AddWord(newWordTextBox.Text.Trim());
+                CheckWordExistence();
             }
         }
         void popupTimer_Tick(object sender, EventArgs e)
@@ -136,10 +136,13 @@ namespace WordLord
             popupTimer.IsEnabled = false;
             addWordButtonPopup.IsOpen = false;
         }
-        private void ShowAddWordPopup()
+        private void ShowAddWordPopup(bool added=true)
         {
             newWordTextBoxPopup.IsOpen = false;
-            addWordButtonPopupTextBlock.Text = "Слово\n\"" + newWordTextBox.Text + "\"\nдобавлено!";
+            if (added)
+                addWordButtonPopupTextBlock.Text = "Слово\n\"" + newWordTextBox.Text + "\"\nдобавлено!";
+            else
+                addWordButtonPopupTextBlock.Text = "Слово\n\"" + newWordTextBox.Text + "\"\nуже есть!";
             newWordTextBox.Text = "";
             addWordButtonPopup.IsOpen = true;
 
@@ -159,8 +162,25 @@ namespace WordLord
 
         private void addWordButton_Click(object sender, RoutedEventArgs e)
         {
-            AddWord(newWordTextBox.Text.Trim());
+            CheckWordExistence();
         }
+        private void CheckWordExistence()
+        {
+            if (!WordAlreadyExists(newWordTextBox.Text.Trim()))
+            {
+                AddWord(newWordTextBox.Text.Trim());
+            }
+            else
+            {
+                ShowAddWordPopup(false);
+            }
+        }
+
+        private bool WordAlreadyExists(string newWord)
+        {
+            return wordsFromDictionary.Exists(word => word.WordFull == newWord);
+        }
+
         public void RefreshWordsList()
         {
             WordsListBox.Items.Refresh();
