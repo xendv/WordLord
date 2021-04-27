@@ -89,5 +89,15 @@ namespace WordLord
                 }
             }
         }
+
+        private void ToAboutGamePage_Click(object sender, RoutedEventArgs e)
+        {
+            mainWin.SetPage("AboutGame");
+        }
+
+        private void ToAboutAuthorPage_Click(object sender, RoutedEventArgs e)
+        {
+            mainWin.SetPage("AboutAuthor");
+        }
     }
 }

@@ -34,6 +34,12 @@ namespace WordLord
                 case "StartGame":
                     Content = new GamePage(this);
                     break;
+                case "AboutGame":
+                    Content = new AboutGamePage(this);
+                    break;
+                case "AboutAuthor":
+                    Content = new AboutAuthorPage(this);
+                    break;
                 default:
                     MessageBox.Show("Запрашиваемая страница не найдена");
                     break;

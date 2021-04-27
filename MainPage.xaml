@@ -21,12 +21,17 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Content="WordLord - игра в угадывание слов" VerticalContentAlignment="Center" FontSize="36" VerticalAlignment="Bottom" ></Label>
             <Button x:Name="ButtonStart" Grid.Column="1" Grid.Row="1"  Content="Начать игру" VerticalAlignment="Bottom" FontSize="20" MinHeight="40" Click="ButtonStart_Click"/>
             <Button x:Name="ButtonContinue" Grid.Column="1" Grid.Row="2" Content="Продолжить игру" FontSize="20" VerticalAlignment="Center" MinHeight="40" Click="ButtonContinue_Click"/>
             <Button x:Name="ButtonDictionary" Grid.Column="1" Grid.Row="3" Content="Словарь" FontSize="20" VerticalAlignment="Top" MinHeight="40" Click="ButtonDictionary_Click"/>
-            
+            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Margin="10" HorizontalAlignment="Left" FontSize="15"> <Hyperlink Name="ToAboutGamePage" Click="ToAboutGamePage_Click">О программе</Hyperlink></TextBlock>
+                <TextBlock Margin="10" HorizontalAlignment="Right" FontSize="15"><Hyperlink  Name="ToAboutAuthorPage" Click="ToAboutAuthorPage_Click">Об авторе</Hyperlink></TextBlock>
+
+            </StackPanel>
         </Grid>
         
 
