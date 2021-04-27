@@ -21,14 +21,18 @@ namespace WordLord
     /// </summary>
     public partial class DictionaryWindow : Window
     {
-        List<Word> wordsFromDictionary;
+        MainWindow mainWindow;
+        public List<Word> wordsFromDictionary { get; set; }
+        WordsLoader wordsLoader;
         public DictionaryWindow(MainWindow win)
         {
             InitializeComponent();
-            WordsLoader wordsLoader = new WordsLoader(this);
+            mainWindow = win;
+            wordsLoader = new WordsLoader(this);
             if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
             {
                 PrintExistingWordsList(ref wordsLoader.GetWords());
+                this.ShowDialog();
             }
         }
         public ObservableCollection<Word> Words { get; set; }
@@ -36,9 +40,6 @@ namespace WordLord
         {
             UpdateWords(ref words);
             WordsListBox.ItemsSource = wordsFromDictionary;
-            //Binding binding = BindingOperations.GetBinding(WordsListBox, ItemsControl.ItemsSourceProperty);
-            //binding.Mode = BindingMode.TwoWay;
-            this.ShowDialog();
         }
 
         public void UpdateWords(ref List<Word> words)
@@ -50,16 +51,16 @@ namespace WordLord
 
         private void TextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
+
         }
 
         private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 1)
             {
-                
+
             }
-                
+
         }
 
         private void newWordTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -86,7 +87,7 @@ namespace WordLord
         private void checkWordCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox chbx = sender as CheckBox;
-            if (checkAllCheckBox.IsChecked == true && !wordsFromDictionary.Exists(x => x.IsSelected==false))
+            if (checkAllCheckBox.IsChecked == true && !wordsFromDictionary.Exists(x => x.IsSelected == false))
                 checkAllCheckBox.IsChecked = false;
 
         }
@@ -98,5 +99,88 @@ namespace WordLord
                 w.IsSelected = true;
             }
         }
+
+        private void deleteSelectedWordsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            wordsFromDictionary.RemoveAll(item => item.IsSelected == true);
+            WordsListBox.ItemsSource = wordsFromDictionary;
+            RefreshWordsList();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox chbx = (CheckBox)sender;
+            wordsFromDictionary.Find(item => item.WordFull == chbx.Tag.ToString()).IsSelected = true;
+        }
+
+        private System.Windows.Threading.DispatcherTimer popupTimer;
+        private void newWordTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            //if (e.Key == Key.Space) ; Убрать ввод пробелов!!
+            if (e.Key == Key.Enter && newWordTextBox.Text.Trim().Length != 0)
+            {
+                AddWord(newWordTextBox.Text.Trim());
+            }
+        }
+        void popupTimer_Tick(object sender, EventArgs e)
+        {
+            popupTimer.IsEnabled = false;
+            addWordButtonPopup.IsOpen = false;
+        }
+        private void ShowAddWordPopup()
+        {
+            newWordTextBoxPopup.IsOpen = false;
+            addWordButtonPopupTextBlock.Text = "Слово\n\"" + newWordTextBox.Text + "\"\nдобавлено!";
+            newWordTextBox.Text = "";
+            addWordButtonPopup.IsOpen = true;
+
+            popupTimer = new System.Windows.Threading.DispatcherTimer();
+
+            popupTimer.Interval = new TimeSpan(0, 0, 3);
+            popupTimer.IsEnabled = true;
+            popupTimer.Tick += new EventHandler(popupTimer_Tick);
+        }
+        private void AddWord(String word)
+        {
+            wordsFromDictionary.Add(new Word(word));
+            WordsLoader.SortWordsByAlphabet(wordsFromDictionary);
+            RefreshWordsList();
+            ShowAddWordPopup();
+        }
+
+        private void addWordButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddWord(newWordTextBox.Text.Trim());
+        }
+        public void RefreshWordsList()
+        {
+            WordsListBox.Items.Refresh();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
+            {
+                MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                CloseDictionaryMessageBox(result);
+            }
+        }
+        public void CloseDictionaryMessageBox(MessageBoxResult result)
+        {
+           
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    wordsLoader.RewriteFileContent(wordsFromDictionary);
+                    break;
+                case MessageBoxResult.No:
+                    this.Close();
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

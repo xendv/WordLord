@@ -15,11 +15,15 @@ namespace WordLord
         //MainWindow parentWindowMain;
         public string errorType = "";
         public List<Word> wordsList;
+        string startupPath = Environment.CurrentDirectory;
+        string fileName;
 
         public WordsLoader(DictionaryWindow ParentWindow)
         {
             this.wordsList = new List<Word>();
             //this.parentWindow = ParentWindow;
+           
+            this.fileName = @startupPath + "\\Dictionary.TXT";
             CheckFileExistence();
         }
 
@@ -27,24 +31,35 @@ namespace WordLord
         {
             this.wordsList = new List<Word>();
             //this.parentWindowMain = ParentWindowMain;
+            this.fileName = @startupPath + "\\Dictionary.TXT";
             CheckFileExistence();
         }
 
-        public void CheckFileExistence()
+        public bool CheckFileExistence()
         {
             string[] fileLines;
-            string startupPath = Environment.CurrentDirectory;
-            string fileName = @startupPath + "\\Dictionary.TXT";
 
             if (System.IO.File.Exists(fileName))
             {
                 fileLines = File.ReadAllLines(fileName);
+                /*string[] words = new string[fileLines.Length];
+                for (int wordIndex=0; wordIndex < fileLines.Length; wordIndex++)
+                {
+                    words[wordIndex] = fileLines[wordIndex];
+                }*/
+                
                 if (!CheckFileContent(fileLines))
                 {
                     errorType = "Wrong Content";
+                    return false;
                 }
             }
-            else errorType = "No File";
+            else
+            {
+                errorType = "No File";
+                return false;
+            }
+            return true;
         }
 
         public bool CheckFileContent(string[] fileLines)
@@ -71,13 +86,44 @@ namespace WordLord
             return onlyAcceptableChars;
         }
 
+        public bool CheckOnlyFileExistence()
+        {
+            if (System.IO.File.Exists(fileName))
+            {
+                return true;
+            }
+            else
+            {
+                errorType = "No File";
+                return false;
+            }
+           
+        }
+        public void RewriteFileContent(List<Word> lWords)
+        {
+            if (CheckOnlyFileExistence())
+            {
+                string[] fileLines = new string[lWords.Count()];
+                int wordIndex = 0;
+                foreach (Word w in lWords)
+                {
+                    fileLines[wordIndex] = w.WordFull;
+                    wordIndex++;
+                }
+                File.WriteAllText(fileName,"");
+                File.WriteAllLines(fileName, fileLines);
+            }
+        }
+
+        public bool HasSameContentAsCurrentList(List<Word> lWords)
+        {
+            return lWords.SequenceEqual(wordsList);
+        }
+
         public ref List<Word> GetWords()
         {
             SortWordsByAlphabet();
             return ref wordsList;
-            //parentWindow.WordsList.DataContext = wordsList;
-            //parentWindow.WordsList.ItemsSource = wordsList;
-            //throw new NotImplementedException();
         }
 
         public string GetRandomWord()
@@ -87,9 +133,15 @@ namespace WordLord
             int w = random.Next(wordsList.Count());
             return wordsList[w].WordFull;
         }
+
+        // Sorting and Comparison
         public void SortWordsByAlphabet()
         {
             wordsList.Sort(WordsComparisonByAlphabet);
+        }
+        static public void SortWordsByAlphabet(List<Word> wList)
+        {
+            wList.Sort(new WordsSorterByWordFull());
         }
 
         /// <summary>
@@ -102,6 +154,14 @@ namespace WordLord
         private int WordsComparisonByAlphabet(Word word1, Word word2)
         {
             return String.Compare(word1.WordFull, word2.WordFull);
+        }
+
+        class WordsSorterByWordFull : IComparer<Word>
+        {
+            public int Compare(Word x, Word y)
+            {
+                return x.WordFull.CompareTo(y.WordFull);
+            }
         }
     }
 }
