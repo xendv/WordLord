@@ -33,6 +33,7 @@ namespace WordLord
         {
             InitializeComponent();
             this.mainWin = win;
+            mainWin.gameStarted = false;
         }
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
@@ -48,14 +49,7 @@ namespace WordLord
             {
                 contitueGamePage.PrintGuessedWordsWithColors();
                 this.mainWin.Content = contitueGamePage;
-                
             }
-
-            //GameSessionLoader gameSessionLoader = new GameSessionLoader(mainWin);
-            /*if (gameSessionLoader.error != "")
-            {
-                mainWin.
-            }*/
         }
 
         private void ButtonDictionary_Click(object sender, RoutedEventArgs e)

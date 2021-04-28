@@ -14,11 +14,6 @@ namespace WordLord
         public string error = "";
         SqliteConnection connection;
         public Word wTG;
-        /*
-                 private int score=15;
-        private List<Letter> guessedLetters;
-        public Word wordToGuess;
-        public bool isFinished=false;*/
 
         public GameSessionLoader()
         {

@@ -20,6 +20,8 @@ namespace WordLord
     public partial class MainWindow : Window
     {
         public bool hasErrors = false;
+        public bool gameStarted = false;
+        public GamePage gamePageChild;
         public MainWindow()
         {
             InitializeComponent();
@@ -89,5 +91,61 @@ namespace WordLord
             }
             return false;
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (gameStarted)
+            {
+                MessageBoxResult result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                CloseGameMessageBox(result, e);
+            }
+        }
+
+        public void CloseGameMessageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
+        {
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    gamePageChild.SaveGame();
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                default:
+                    MessageBox.Show("Некорректный обработчик кнопок!");
+                    break;
+            }
+        }
+        /*
+                 private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
+            {
+                MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\n\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                CloseDictionaryMessageBox(result, e);
+            }
+        }
+        public void CloseDictionaryMessageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
+        {
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    wordsLoader.RewriteFileContent(wordsFromDictionary);
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                default:
+                    MessageBox.Show("Некорректный обработчик кнопок!");
+                    break;
+            }
+        }
+
+         */
     }
 }

@@ -21,7 +21,7 @@ namespace WordLord
     public partial class GamePage : Page
     {
         MainWindow ParentWindowMain;
-        
+
         GameSession game;
         public GamePage(MainWindow win)
         {
@@ -30,14 +30,15 @@ namespace WordLord
             WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
             if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
             {
-                
+
                 game = new GameSession(wordsLoader.GetRandomWord());
                 BuildGamePage();
-               
+                ParentWindowMain.gameStarted = true;
+                ParentWindowMain.gamePageChild = this;
             }
         }
 
-        public GamePage(MainWindow win, bool restoreSession=false)
+        public GamePage(MainWindow win, bool restoreSession = false)
         {
             ParentWindowMain = win;
             if (restoreSession)
@@ -48,6 +49,8 @@ namespace WordLord
                     game.GetSavedSession();
                     InitializeComponent();
                     BuildGamePage();
+                    ParentWindowMain.gameStarted = true;
+                    ParentWindowMain.gamePageChild = this;
                 }
                 else win.hasErrors = true;
             }
@@ -181,10 +184,10 @@ namespace WordLord
             e.CancelCommand();
         }
 
-        private void SaveGameMenuItem_Click(object sender, RoutedEventArgs e)
+        public void SaveGame()
         {
             GameSessionLoader gameSessionLoader = new GameSessionLoader();
-            if(!ParentWindowMain.DisplayDBErrors(gameSessionLoader.error))
+            if (!ParentWindowMain.DisplayDBErrors(gameSessionLoader.error))
             {
                 game.gameSessionLoader = gameSessionLoader;
                 game.SaveSession();
@@ -210,7 +213,36 @@ namespace WordLord
                 WordToGuessStackPanel.Children.Add(letterTextBlock);
             }
             letterToGuessTextBlock.Focus();
-            letterToGuessTextBlock.ToolTip = game.wordToGuess;
+            //letterToGuessTextBlock.ToolTip = game.wordToGuess;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)sender;
+            switch (menuItem.Name)
+            {
+                case "SaveGameMenuItem":
+                    SaveGame();
+                    break;
+                case "SaveAndExitToMainMenu":
+                    SaveGame();
+                    ParentWindowMain.SetPage("Main");
+                    break;
+                case "ExitToMainMenu":
+                    MessageBoxResult result = MessageBox.Show("Выйти без сохранения?", "Уверены?", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                    switch (result)
+                    {
+                        case MessageBoxResult.OK:
+                            ParentWindowMain.SetPage("Main");
+                            break;
+                        default: break;
+                    }
+                    break;
+                case "Exit":
+                    ParentWindowMain.Close();
+                    break;
+                default: break;
+            }
         }
     }
 }
