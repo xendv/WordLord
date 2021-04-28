@@ -19,6 +19,7 @@ namespace WordLord
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool hasErrors = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +34,9 @@ namespace WordLord
                     break;
                 case "StartGame":
                     Content = new GamePage(this);
+                    break;
+                case "ContinueGame":
+                    Content = new GamePage(this, true);
                     break;
                 case "AboutGame":
                     Content = new AboutGamePage(this);
@@ -74,6 +78,16 @@ namespace WordLord
                     break;
             }
             return true;
+        }
+
+        public bool DisplayDBErrors(string error)
+        {
+            if (error.Length != 0)
+            {
+                MessageBox.Show(error, "DBError", MessageBoxButton.OK, MessageBoxImage.Error);
+                return true;
+            }
+            return false;
         }
     }
 }

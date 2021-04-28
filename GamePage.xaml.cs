@@ -21,6 +21,7 @@ namespace WordLord
     public partial class GamePage : Page
     {
         MainWindow ParentWindowMain;
+        
         GameSession game;
         public GamePage(MainWindow win)
         {
@@ -29,26 +30,26 @@ namespace WordLord
             WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
             if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
             {
+                
                 game = new GameSession(wordsLoader.GetRandomWord());
-                UpdateScore();
+                BuildGamePage();
+               
+            }
+        }
 
-                //создание textblock'а для каждой буквы слова
-                TextBlock letterTextBlock;
-                for (int letterIndex = 0; letterIndex < game.wordToGuess.WordFull.Length; letterIndex++)
+        public GamePage(MainWindow win, bool restoreSession=false)
+        {
+            ParentWindowMain = win;
+            if (restoreSession)
+            {
+                game = new GameSession();
+                if (!win.DisplayDBErrors(game.error))
                 {
-                    letterTextBlock = new TextBlock()
-                    {
-                        Tag = game.wordToGuess.WordFull[letterIndex],
-                        Margin = new Thickness(10, 10, 0, 0),
-                        Text = "-",
-                        FontSize = 48,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
-                    };
-                    WordToGuessStackPanel.Children.Add(letterTextBlock);
+                    game.GetSavedSession();
+                    InitializeComponent();
+                    BuildGamePage();
                 }
-                letterToGuessTextBlock.Focus();
-                letterToGuessTextBlock.ToolTip = game.wordToGuess;
+                else win.hasErrors = true;
             }
         }
 
@@ -178,6 +179,37 @@ namespace WordLord
         private void letterToGuessTextBlock_OnPasting(object sender, DataObjectPastingEventArgs e)
         {
             e.CancelCommand();
+        }
+
+        private void SaveGameMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GameSessionLoader gameSessionLoader = new GameSessionLoader();
+            if(!ParentWindowMain.DisplayDBErrors(gameSessionLoader.error))
+            {
+                //game.S
+            }
+        }
+        private void BuildGamePage()
+        {
+            UpdateScore();
+
+            //создание textblock'а для каждой буквы слова
+            TextBlock letterTextBlock;
+            for (int letterIndex = 0; letterIndex < game.wordToGuess.WordFull.Length; letterIndex++)
+            {
+                letterTextBlock = new TextBlock()
+                {
+                    Tag = game.wordToGuess.WordFull[letterIndex],
+                    Margin = new Thickness(10, 10, 0, 0),
+                    Text = "-",
+                    FontSize = 48,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                WordToGuessStackPanel.Children.Add(letterTextBlock);
+            }
+            letterToGuessTextBlock.Focus();
+            letterToGuessTextBlock.ToolTip = game.wordToGuess;
         }
     }
 }

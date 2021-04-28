@@ -27,7 +27,7 @@ namespace WordLord
     public partial class MainPage : Page
     {
         public MainWindow mainWin;
-        public bool dictionaryErrors=false;
+        public bool hasErrors = false;
         //Page curr_page;
         public MainPage()
         {
@@ -46,36 +46,29 @@ namespace WordLord
 
         private void ButtonContinue_Click(object sender, RoutedEventArgs e)
         {
-            //this.mainWin.Content = new GamePage(this.mainWin);
+            //mainWin.SetPage("ContinueGame");
+            GamePage contitueGamePage = new GamePage(this.mainWin, true);
+            if (!mainWin.hasErrors)
+            {
+                contitueGamePage.PrintGuessedWordsWithColors();
+                this.mainWin.Content = contitueGamePage;
+                
+            }
+
+            //GameSessionLoader gameSessionLoader = new GameSessionLoader(mainWin);
+            /*if (gameSessionLoader.error != "")
+            {
+                mainWin.
+            }*/
         }
 
         private void ButtonDictionary_Click(object sender, RoutedEventArgs e)
         {
             DictionaryWindow dictionaryWindow = new DictionaryWindow(this.mainWin);
             dictionaryWindow.Owner = this.mainWin;
-
-
-
-            /*string tempFileName = System.IO.Path.GetTempPath();
-
-            tempFileName = System.IO.Path.Combine(tempFileName, Guid.NewGuid().ToString() + ".xps");
-            string filePath = "C:\\Users\\xendv\\source\\repos\\WordLord\\Dictionary.txt";
-
-            XpsDocument doc = new XpsDocument(tempFileName, System.IO.FileAccess.ReadWrite);
-            //var doc = System.Windows.Application.LoadComponent(new Uri("/DictionaryWindow.xaml", UriKind.Relative)) as FixedDocument;
-            //doc.AddPages();
-            //XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(doc);
-            //writer.Write(dictionaryWindow.documentViewer.Document as FixedDocument);
-            //doc.Close();
-
-            //FileInfo fileInfo = new FileInfo(filePath);
-            //StreamReader doc = new StreamReader(fileInfo.Open(FileMode.Open, FileAccess.Read), Encoding.GetEncoding(1251));
-
-            dictionaryWindow.documentViewer.Document = doc.GetFixedDocumentSequence();
-            //doc.Close();
-            //File.Delete(tempFileName);*/
         }
-        public void OpenFile() { 
+        public void OpenFile()
+        {
         }
         public static void AddPages(FixedDocument fixedDocument)
         {

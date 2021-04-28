@@ -9,15 +9,23 @@ namespace WordLord
     public class GameSession
     {
         //string User = null;
-        private int score;
+        private int score=15;
         private List<Letter> guessedLetters;
         public Word wordToGuess;
+        public bool isFinished=false;
+        public string error = "";
+        private GameSessionLoader gameSessionLoader;
 
         public GameSession(string word)
         {
             score = 15;
             wordToGuess = new Word(word);
             guessedLetters = new List<Letter>();
+        }
+
+        public GameSession()
+        {
+            InitializeLoader();
         }
 
         public bool LetterWasTried(char letter)
@@ -78,9 +86,24 @@ namespace WordLord
         {
             score = value;
         }
+        
+        public void InitializeLoader()
+        {
+            gameSessionLoader = new GameSessionLoader();
+            error = gameSessionLoader.error;
+        }
+
         public void SaveSession()
         {
 
+        }
+        
+        public void GetSavedSession()
+        {
+            this.wordToGuess = gameSessionLoader.getWordToGuess();
+            this.guessedLetters = gameSessionLoader.getGuessedLetters(wordToGuess.letters);
+            this.score = gameSessionLoader.getScore();
+            //this.gameSessionLoader = gSL;
         }
 
     }
