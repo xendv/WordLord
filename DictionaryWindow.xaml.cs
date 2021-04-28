@@ -105,7 +105,10 @@ namespace WordLord
             foreach (Word w in wordsFromDictionary)
             {
                 w.IsSelected = true;
+
             }
+            WordsListBox.ItemsSource = wordsFromDictionary;
+            RefreshWordsList();
         }
 
         private void deleteSelectedWordsButton_Click(object sender, RoutedEventArgs e)
@@ -220,6 +223,16 @@ namespace WordLord
             changeButton.Visibility = Visibility.Hidden;
             //Button saveButton = WordsListBox.Items.OfType<Button>().Find((item) => item.Tag == changeButton.Tag);
             
+        }
+
+        private void checkAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (Word w in wordsFromDictionary)
+            {
+                w.IsSelected = false;
+                WordsListBox.ItemsSource = wordsFromDictionary;
+                RefreshWordsList();
+            }
         }
     }
 }
