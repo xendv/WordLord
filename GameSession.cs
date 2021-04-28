@@ -78,5 +78,10 @@ namespace WordLord
         {
             score = value;
         }
+        public void SaveSession()
+        {
+
+        }
+
     }
 }

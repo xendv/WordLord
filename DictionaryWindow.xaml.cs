@@ -38,7 +38,7 @@ namespace WordLord
                     wordsFromDictionary.Add(w);
                 }
                 //wordsLoader.GetWords().Clo(wordsFromDictionary.ToArray());
-                
+
                 PrintExistingWordsList(wordsLoader.GetWords());
                 this.ShowDialog();
             }
@@ -136,7 +136,7 @@ namespace WordLord
             popupTimer.IsEnabled = false;
             addWordButtonPopup.IsOpen = false;
         }
-        private void ShowAddWordPopup(bool added=true)
+        private void ShowAddWordPopup(bool added = true)
         {
             newWordTextBoxPopup.IsOpen = false;
             if (added)
@@ -191,12 +191,12 @@ namespace WordLord
             if (!wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
             {
                 MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\n\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                CloseDictionaryMessageBox(result,e);
+                CloseDictionaryMessageBox(result, e);
             }
         }
         public void CloseDictionaryMessageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
         {
-           
+
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -213,5 +213,13 @@ namespace WordLord
             }
         }
 
+
+        private void ChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button changeButton = (Button)sender;
+            changeButton.Visibility = Visibility.Hidden;
+            //Button saveButton = WordsListBox.Items.OfType<Button>().Find((item) => item.Tag == changeButton.Tag);
+            
+        }
     }
 }

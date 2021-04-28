@@ -40,43 +40,62 @@
 
         </DataTemplate>-->
     </Page.Resources>
-
-    <Grid Margin="20">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" x:Name="ToMainMenuButton" Content="Назад" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" FontSize="15" Click="ToMainMenuButton_Click"/>
+        <Menu Grid.Row="0" Height="Auto" Margin="0,0,0,0" Background="Lavender" Padding="20,6,0,6" VerticalContentAlignment="Center" VerticalAlignment="Top">
+            <MenuItem Header="Игра" HorizontalContentAlignment="Center" Margin="0">
+                <MenuItem Header="Сохранить" ></MenuItem>
+                <Separator />
+                <MenuItem Header="Выйти в главное меню.." >
+                    <MenuItem Header="... с сохранением"></MenuItem>
+                    <MenuItem Header="... без сохранения" ></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Выйти из игры"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" x:Name="ToMainMenuButton" Content="В главное меню" HorizontalAlignment="Left" VerticalAlignment="Center" Width="Auto" FontSize="15" Click="ToMainMenuButton_Click"/>
+            
+
+            <Label Grid.Row="1" x:Name="ScoreNameLabel" Content="Ваш счёт:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0" FontSize="36"></Label>
+            <Label Grid.Row="1" x:Name="ScoreLabel" Content="sc" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="36" BorderThickness="0,0,20,0"></Label>
 
 
-        <Label Grid.Row="1" x:Name="ScoreNameLabel" Content="Ваш счёт:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0" FontSize="36"></Label>
-        <Label Grid.Row="1" x:Name="ScoreLabel" Content="sc" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="36" BorderThickness="0,0,20,0"></Label>
+            <TextBlock Grid.Row="2" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" IsHitTestVisible="False"/>
+            <StackPanel x:Name="WordToGuessStackPanel" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
+            </StackPanel>
 
-        <TextBlock Grid.Row="2" Text="Вводите буквы, чтобы отгадать следующее слово:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" IsHitTestVisible="False"/>
-        <StackPanel x:Name="WordToGuessStackPanel" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-
-        </StackPanel>
-
-        <Label  Grid.Row="4" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
-        <TextBox Name="letterToGuessTextBlock" ToolTip=""  Grid.Row="4"  MaxLength="1" DataObject.Pasting="letterToGuessTextBlock_OnPasting" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" MinWidth="40" TextAlignment="Center" KeyDown="letterToGuess_KeyDown" PreviewTextInput="letterToGuessTextBlock_PreviewTextInput"/>
-        <Popup Name="letterToGuessPopup" PlacementTarget="{Binding ElementName=letterToGuessTextBlock}" Placement="Right"
+            <Label  Grid.Row="4" Content="___" HorizontalAlignment="Center" FontSize="50" VerticalAlignment="Bottom" Padding="5,5,5,10"/>
+            <TextBox Name="letterToGuessTextBlock" ToolTip=""  Grid.Row="4"  MaxLength="1" DataObject.Pasting="letterToGuessTextBlock_OnPasting" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" UseLayoutRounding="False" MinWidth="40" TextAlignment="Center" KeyDown="letterToGuess_KeyDown" PreviewTextInput="letterToGuessTextBlock_PreviewTextInput"/>
+            <Popup Name="letterToGuessPopup" PlacementTarget="{Binding ElementName=letterToGuessTextBlock}" Placement="Right"
                StaysOpen="{Binding ElementName=letterToGuessTextBlock, Path=IsMouseCaptureWithin}" PopupAnimation="Fade" AllowsTransparency="True" >
-            <Grid Background="White">
-                <TextBlock  Name="letterToGuessPopupTextBlock" FontSize="20"></TextBlock>
-            </Grid>
-        </Popup>
-        
-        <StackPanel Grid.Row="5" Orientation="Horizontal">
-            <TextBlock Text="Введенные ранее буквы:" FontSize="20" HorizontalAlignment="Left" Padding="5,0" Margin="20,0" VerticalAlignment="Center" />
-            <WrapPanel  Name="guessedLettersWrapPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                
-            </WrapPanel>
-        </StackPanel>
+                <Grid Background="White">
+                    <TextBlock  Name="letterToGuessPopupTextBlock" FontSize="20"></TextBlock>
+                </Grid>
+            </Popup>
 
+            <StackPanel Grid.Row="5" Orientation="Horizontal">
+                <TextBlock Text="Введенные ранее буквы:" FontSize="20" HorizontalAlignment="Left" Padding="5,0" Margin="20,0" VerticalAlignment="Center" />
+                <WrapPanel  Name="guessedLettersWrapPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+
+                </WrapPanel>
+            </StackPanel>
+
+        </Grid>
     </Grid>
+    
 </Page>
