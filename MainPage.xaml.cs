@@ -13,11 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using System.Windows.Xps.Packaging;
-using System.Windows.Xps;
 using System.Collections;
-using System.IO;
-using System.Xml;
 
 namespace WordLord
 {

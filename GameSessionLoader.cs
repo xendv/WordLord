@@ -7,7 +7,7 @@ using Microsoft.Data.Sqlite;
 
 namespace WordLord
 {
-    class GameSessionLoader
+    public class GameSessionLoader
     {
         //MainWindow win;
         string DBName = "GameSessionsDB.db";
@@ -104,6 +104,22 @@ namespace WordLord
             }
             int score = Convert.ToInt32(scoreStr);
             return score;
+        }
+
+        public void SaveGameSessionData(List<Letter> guessedLetters, string WordFull, string score)
+        {
+            string guessedLettersStr = "";
+            foreach (Letter letter in guessedLetters)
+            {
+                guessedLettersStr += letter.letter.ToString();
+            }
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            string sqlExpression = $"UPDATE sessions_data SET wordFull='{WordFull}', " +
+                $"guessedLettersChars='{guessedLettersStr}', score='{score}' " +
+                $"WHERE session_id=1";
+            command.CommandText = sqlExpression;
+            command.ExecuteNonQuery();
         }
 
     }

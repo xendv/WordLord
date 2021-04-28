@@ -186,7 +186,8 @@ namespace WordLord
             GameSessionLoader gameSessionLoader = new GameSessionLoader();
             if(!ParentWindowMain.DisplayDBErrors(gameSessionLoader.error))
             {
-                //game.S
+                game.gameSessionLoader = gameSessionLoader;
+                game.SaveSession();
             }
         }
         private void BuildGamePage()

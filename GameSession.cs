@@ -14,7 +14,7 @@ namespace WordLord
         public Word wordToGuess;
         public bool isFinished=false;
         public string error = "";
-        private GameSessionLoader gameSessionLoader;
+        public GameSessionLoader gameSessionLoader;
 
         public GameSession(string word)
         {
@@ -95,9 +95,10 @@ namespace WordLord
 
         public void SaveSession()
         {
-
+            //InitializeLoader();
+            gameSessionLoader.SaveGameSessionData(guessedLetters, wordToGuess.WordFull, score.ToString());
         }
-        
+
         public void GetSavedSession()
         {
             this.wordToGuess = gameSessionLoader.getWordToGuess();
