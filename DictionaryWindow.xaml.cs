@@ -74,12 +74,13 @@ namespace WordLord
         private void newWordTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             char inp = e.Text[0];
-            if (inp < 'а' || inp > 'я')
+            if (inp < 'а' || inp > 'я' && inp!='ё')
                 e.Handled = true;
-            else if (inp >= 'А' && inp <= 'Я')
+            else if (inp >= 'А' && inp <= 'Я' || inp=='Ё')
             {
                 e.Handled = true;
             }
+
         }
 
         private void newWordTextBox_GotMouseCapture(object sender, MouseEventArgs e)

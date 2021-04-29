@@ -80,23 +80,26 @@ namespace WordLord
                     else
                     {
                         if (!game.LetterWasTried(letterTG))
+                        {
                             game.AddToGuessedAndSort(letterTG, true);
+                            foreach (int pos in game.wordToGuess.GetLetterPositions(letterTG))
+                            {
+                                //this.FindName(letterTG.ToString());
+                                var result = WordToGuessStackPanel.Children.OfType<TextBlock>().Where(x => x.Tag.ToString() == letterTG.ToString()).ToList<TextBlock>();
+
+                                foreach (TextBlock tb in result)
+                                {
+                                    tb.Text = letterTG.ToString();
+                                }
+                            }
+                            PrintGuessedWordsWithColors();
+                        }    
                         else
                         {
                             letterToGuessPopupTextBlock.Text = "Буква '" + letterTG + "' уже угадана!";
                             letterToGuessPopup.IsOpen = true;
                         }
-                        foreach (int pos in game.wordToGuess.GetLetterPositions(letterTG))
-                        {
-                            //this.FindName(letterTG.ToString());
-                            var result = WordToGuessStackPanel.Children.OfType<TextBlock>().Where(x => x.Tag.ToString() == letterTG.ToString()).ToList<TextBlock>();
-
-                            foreach (TextBlock tb in result)
-                            {
-                                tb.Text = letterTG.ToString();
-                            }
-                        }
-                        PrintGuessedWordsWithColors();
+                        
                         if (GuessedAllLetters())
                         {
                             MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
@@ -175,7 +178,7 @@ namespace WordLord
         private void letterToGuessTextBlock_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             char inp = e.Text.ToLower()[0];
-            if (inp < 'а' || inp > 'я')
+            if (inp < 'а' || inp > 'я' && inp != 'ё')
                 e.Handled = true;
         }
 

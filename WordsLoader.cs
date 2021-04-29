@@ -68,7 +68,7 @@ namespace WordLord
             bool onlyAcceptableChars = true;
             foreach (string line in fileLines)
             {
-                string pattern = @"^[а-я]+$"; //only russian letters
+                string pattern = @"^[а-яё]+$"; //only russian letters
                 Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
                 if (!regex.IsMatch(line))
                 {
