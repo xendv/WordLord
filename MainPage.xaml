@@ -17,27 +17,31 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions >
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition  Height="2*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Content="WordLord - игра в угадывание слов" VerticalContentAlignment="Center" FontSize="36" VerticalAlignment="Bottom" ></Label>
             <Button x:Name="ButtonStart" Grid.Column="1" Grid.Row="1"  Content="Начать игру" VerticalAlignment="Bottom" FontSize="20" MinHeight="40" Click="ButtonStart_Click"/>
-            <Button x:Name="ButtonContinue" Grid.Column="1" Grid.Row="2"  FontSize="20" VerticalAlignment="Center" MinHeight="40" Click="ButtonContinue_Click">
-                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">Продолжить последнюю <LineBreak/> сохраненную игру</TextBlock>
+            <Button x:Name="ButtonCompStart" Grid.Column="1" Grid.Row="4"  Content="Игра компьютером" VerticalAlignment="Center" FontSize="20" MinHeight="40" Click="ButtonCompStart_Click"/>
+            <Button x:Name="ButtonContinue" Grid.Column="1" Grid.Row="2"  FontSize="20" VerticalAlignment="Center"  Click="ButtonContinue_Click">
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" TextAlignment="Center">Продолжить последнюю сохраненную  <LineBreak/>игру</TextBlock>
             </Button>
-            <Button x:Name="ButtonDictionary" Grid.Column="1" Grid.Row="3" Content="Словарь" FontSize="20" VerticalAlignment="Top" MinHeight="40" Click="ButtonDictionary_Click"/>
-            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+
+            <Button x:Name="ButtonDictionary" Grid.Column="1" Grid.Row="5" Content="Словарь" FontSize="20" VerticalAlignment="Center" MinHeight="40" Click="ButtonDictionary_Click"/>
+            <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Margin="10" HorizontalAlignment="Left" FontSize="15"> <Hyperlink Name="ToAboutGamePage" Click="ToAboutGamePage_Click">О программе</Hyperlink></TextBlock>
                 <TextBlock Margin="10" HorizontalAlignment="Right" FontSize="15"><Hyperlink  Name="ToAboutAuthorPage" Click="ToAboutAuthorPage_Click">Об авторе</Hyperlink></TextBlock>
 
             </StackPanel>
         </Grid>
-        
+
 
         <!--<Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="782"/>-->
-        
+
     </StackPanel>
 </Page>

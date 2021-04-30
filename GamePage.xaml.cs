@@ -23,8 +23,10 @@ namespace WordLord
         MainWindow ParentWindowMain;
 
         GameSession game;
+        bool asComp=false;
         public GamePage(MainWindow win)
         {
+            asComp = false;
             InitializeComponent();
             ParentWindowMain = win;
             WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
@@ -38,8 +40,28 @@ namespace WordLord
             }
         }
 
+        public GamePage(MainWindow win, bool asComp, string t)
+        {
+            this.asComp = asComp;
+            win.asComp = true;
+            InitializeComponent();
+            ParentWindowMain = win;
+            WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
+            if (!win.DisplayDictionaryErrors(wordsLoader.errorType))
+            {
+                game = new GameSession(wordsLoader.GetRandomWord(), true);
+                BuildGamePage();
+                ParentWindowMain.gameStarted = true;
+                ParentWindowMain.gamePageChild = this;
+            }
+            letterToGuessTextBlock.IsEnabled = false;
+            Task task = compGuessAsync();
+            
+        }
+
         public GamePage(MainWindow win, bool restoreSession = false)
         {
+            this.asComp = false;
             ParentWindowMain = win;
             if (restoreSession)
             {
@@ -60,6 +82,70 @@ namespace WordLord
         {
             ParentWindowMain.SetPage("Main");
         }
+
+        public async Task compGuessAsync()
+        {
+            game.isFinished = false;
+            string alphabet = "абвгдеёжзиклмнопрстуфхцчшщьыъэюя";
+            Random random = new Random();
+
+            //
+            while (!game.isFinished)
+            {
+                int temp_ind = random.Next(0, alphabet.Length);
+                letterToGuessTextBlock.Text = alphabet[temp_ind].ToString();
+                alphabet= alphabet.Remove(temp_ind,1);
+                //while
+                //тест 27 к  13 у второй группе
+                await Task.Delay(1000);
+                letterToGuessPopup.IsOpen = false;
+                char letterTG = letterToGuessTextBlock.Text.ToString().ToLower()[0];
+                if (!game.CheckIfGuessedALetter(letterTG))
+                {
+                    if (!game.LetterWasTried(letterTG))
+                        game.AddToGuessedAndSort(letterTG);
+                    letterToGuessPopupTextBlock.Text = "Буквы '" + letterTG + "' нет в слове!";
+                    letterToGuessPopup.IsOpen = true;
+                    letterToGuessTextBlock.Text = "";
+                    UpdateScore();
+                }
+                else
+                {
+                    if (!game.LetterWasTried(letterTG))
+                    {
+                        game.AddToGuessedAndSort(letterTG, true);
+                        foreach (int pos in game.wordToGuess.GetLetterPositions(letterTG))
+                        {
+                            //this.FindName(letterTG.ToString());
+                            var result = WordToGuessStackPanel.Children.OfType<TextBlock>().Where(x => x.Tag.ToString() == letterTG.ToString()).ToList<TextBlock>();
+
+                            foreach (TextBlock tb in result)
+                            {
+                                tb.Text = letterTG.ToString();
+                            }
+                        }
+                        PrintGuessedWordsWithColors();
+                    }
+                    if (GuessedAllLetters())
+                    {
+                        MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                        ShowEndGameMessageBox(result);
+                        game.isFinished = true;
+                    }
+                    letterToGuessTextBlock.Text = "";
+                }
+                PrintGuessedWordsWithColors();
+                letterToGuessTextBlock.Text = "";
+                if (game.GetScore() == 0)
+                {
+                    MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    ShowEndGameMessageBox(result);
+                    game.isFinished = true;
+                }
+                await Task.Delay(1000);
+            }
+        }
+
 
         private void letterToGuess_KeyDown(object sender, KeyEventArgs e)
         {
@@ -93,13 +179,13 @@ namespace WordLord
                                 }
                             }
                             PrintGuessedWordsWithColors();
-                        }    
+                        }
                         else
                         {
                             letterToGuessPopupTextBlock.Text = "Буква '" + letterTG + "' уже угадана!";
                             letterToGuessPopup.IsOpen = true;
                         }
-                        
+
                         if (GuessedAllLetters())
                         {
                             MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);

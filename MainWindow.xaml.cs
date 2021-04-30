@@ -21,6 +21,7 @@ namespace WordLord
     {
         public bool hasErrors = false;
         public bool gameStarted = false;
+        public bool asComp = false;
         public GamePage gamePageChild;
         public MainWindow()
         {
@@ -71,7 +72,7 @@ namespace WordLord
                         //PrintExistingWordsList(ref wordsLoader.GetWords());
                         //this.ShowDialog();
                     }
-                    //break;
+                //break;
                 default:
                     MessageBox.Show("Необработанное исключение!", "ОЙ", MessageBoxButton.OK, MessageBoxImage.Error);
                     /*Difference between Show() and ShowDialog() methods
@@ -96,7 +97,9 @@ namespace WordLord
         {
             if (gameStarted)
             {
-                MessageBoxResult result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                MessageBoxResult result;
+                if (!asComp) result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                else result = MessageBox.Show("Уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 CloseGameMessageBox(result, e);
             }
         }
@@ -106,7 +109,7 @@ namespace WordLord
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    gamePageChild.SaveGame();
+                    if (!asComp) gamePageChild.SaveGame();
                     break;
                 case MessageBoxResult.No:
                     break;

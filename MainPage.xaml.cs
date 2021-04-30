@@ -38,6 +38,7 @@ namespace WordLord
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
         {
+            //MessageBoxResult res = MessageBox.Show("За кого играть?","Начать игру");
             this.mainWin.Content = new GamePage(this.mainWin);
         }
 
@@ -81,6 +82,11 @@ namespace WordLord
         private void ToAboutAuthorPage_Click(object sender, RoutedEventArgs e)
         {
             mainWin.SetPage("AboutAuthor");
+        }
+
+        private void ButtonCompStart_Click(object sender, RoutedEventArgs e)
+        {
+            this.mainWin.Content = new GamePage(this.mainWin, true, "");
         }
     }
 }

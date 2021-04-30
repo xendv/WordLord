@@ -15,18 +15,38 @@ namespace WordLord
         public bool isFinished=false;
         public string error = "";
         public GameSessionLoader gameSessionLoader;
+        public bool asComp;
 
         public GameSession(string word)
         {
-            score = 15;
-            wordToGuess = new Word(word);
-            guessedLetters = new List<Letter>();
+            if (word == "comp")
+            {
+
+            }
+            else
+            {
+                score = 15;
+                wordToGuess = new Word(word);
+                guessedLetters = new List<Letter>();
+            }
         }
 
         public GameSession()
         {
             InitializeLoader();
         }
+
+
+        public GameSession(string word, bool asComp)
+        {
+            score = 15;
+            wordToGuess = new Word(word);
+            guessedLetters = new List<Letter>();
+            InitializeLoader();
+            this.asComp = asComp;
+        }
+
+
 
         public bool LetterWasTried(char letter)
         {
