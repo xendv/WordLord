@@ -113,6 +113,16 @@ namespace WordLord
                 File.WriteAllText(fileName,"");
                 File.WriteAllLines(fileName, fileLines);
             }
+            RewriteWordList(lWords);
+        }
+
+        void RewriteWordList(List<Word> lWords)
+        {
+            this.wordsList.Clear();
+            foreach (Word word in lWords)
+            {
+                this.wordsList.Add(word);
+            }
         }
 
         public bool HasSameContentAsCurrentList(List<Word> lWords)

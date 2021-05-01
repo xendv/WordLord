@@ -235,5 +235,26 @@ namespace WordLord
                 RefreshWordsList();
             }
         }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            wordsLoader.RewriteFileContent(wordsFromDictionary);
+            ShowSavedPopup();
+        }
+        void popupSavedTimer_Tick(object sender, EventArgs e)
+        {
+            popupTimer.IsEnabled = false;
+            SaveButtonPopup.IsOpen = false;
+        }
+        private void ShowSavedPopup()
+        {
+            SaveButtonPopup.IsOpen = true;
+
+            popupTimer = new System.Windows.Threading.DispatcherTimer();
+
+            popupTimer.Interval = new TimeSpan(0, 0, 3);
+            popupTimer.IsEnabled = true;
+            popupTimer.Tick += new EventHandler(popupSavedTimer_Tick);
+        }
     }
 }
