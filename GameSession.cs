@@ -16,6 +16,7 @@ namespace WordLord
         public string error = "";
         public GameSessionLoader gameSessionLoader;
         public bool asComp;
+        public bool isPaused=false;
 
         public GameSession(string word)
         {

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace WordLord
 {
@@ -23,6 +24,7 @@ namespace WordLord
         public bool gameStarted = false;
         public bool asComp = false;
         public GamePage gamePageChild;
+        //public Task task;
         public MainWindow()
         {
             InitializeComponent();
@@ -92,15 +94,42 @@ namespace WordLord
             }
             return false;
         }
-
+        //oijsflij
+        //public CancellationTokenSource cts;
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (gameStarted)
             {
                 MessageBoxResult result;
-                if (!asComp) result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                else result = MessageBox.Show("Уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                CloseGameMessageBox(result, e);
+                if (!asComp)
+                {
+                    result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                    CloseGameMessageBox(result, e);
+                }
+                else
+                {
+                    gamePageChild.game.isPaused = true;
+                    result = MessageBox.Show("Уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    CloseCompGameMeggageBox(result, e);
+                }
+            }
+        }
+
+        public void CloseCompGameMeggageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
+        {
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    //gamePageChild.cts.Cancel(true);
+                    break;
+                case MessageBoxResult.No:
+                    e.Cancel = true;
+                    gamePageChild.game.isPaused = false;
+                    gamePageChild.compGuess();
+                    break;
+                default:
+                    MessageBox.Show("Некорректный обработчик кнопок!");
+                    break;
             }
         }
 

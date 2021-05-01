@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace WordLord
 {
@@ -21,9 +22,12 @@ namespace WordLord
     public partial class GamePage : Page
     {
         MainWindow ParentWindowMain;
+        public GameSession game;
+        bool asComp = false;
+        public Task task;
+        public CancellationTokenSource cts;
+        public CancellationToken token;
 
-        GameSession game;
-        bool asComp=false;
         public GamePage(MainWindow win)
         {
             asComp = false;
@@ -55,8 +59,16 @@ namespace WordLord
                 ParentWindowMain.gamePageChild = this;
             }
             letterToGuessTextBlock.IsEnabled = false;
-            Task task = compGuessAsync();
-            
+
+            /*cts = new System.Threading.CancellationTokenSource();
+            token = cts.Token;
+            task = new Task(() => { compGuess(); }, token);
+            task.Start();
+
+            //if (cts.Token.IsCancellationRequested) return;
+            cts.Dispose();
+            cts = null;*/
+            compGuess();
         }
 
         public GamePage(MainWindow win, bool restoreSession = false)
@@ -82,19 +94,20 @@ namespace WordLord
         {
             ParentWindowMain.SetPage("Main");
         }
+        
+        string alphabet = "абвгдеёжзиклмнопрстуфхцчшщьыъэюя";
+        Random random = new Random();
 
-        public async Task compGuessAsync()
+        public async void compGuess()
         {
             game.isFinished = false;
-            string alphabet = "абвгдеёжзиклмнопрстуфхцчшщьыъэюя";
-            Random random = new Random();
 
             //
-            while (!game.isFinished)
+            while (!game.isFinished && !game.isPaused/*token.IsCancellationRequested*/)
             {
                 int temp_ind = random.Next(0, alphabet.Length);
                 letterToGuessTextBlock.Text = alphabet[temp_ind].ToString();
-                alphabet= alphabet.Remove(temp_ind,1);
+                alphabet = alphabet.Remove(temp_ind, 1);
                 //while
                 //тест 27 к  13 у второй группе
                 await Task.Delay(1000);
@@ -314,6 +327,7 @@ namespace WordLord
                     SaveGame();
                     break;
                 case "SaveAndExitToMainMenu":
+                    cts.Cancel(true);
                     SaveGame();
                     ParentWindowMain.SetPage("Main");
                     break;
