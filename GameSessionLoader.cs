@@ -100,8 +100,25 @@ namespace WordLord
             int score = Convert.ToInt32(scoreStr);
             return score;
         }
+        public int getAsComp()
+        {
+            string asComp = "";
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText =
+                @"SELECT asComp FROM sessions_data WHERE id = 1";
+            //command.CommandText = "CREATE TABLE Users(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Name TEXT NOT NULL)";
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    asComp = reader.GetString(0);
+                }
+            }
+            return Convert.ToInt32(asComp);
+        }
 
-        public void SaveGameSessionData(List<Letter> guessedLetters, string WordFull, string score)
+        public void SaveGameSessionData(List<Letter> guessedLetters, string WordFull, string score, int asComp=0)
         {
             string guessedLettersStr = "";
             foreach (Letter letter in guessedLetters)
@@ -111,7 +128,7 @@ namespace WordLord
             SqliteCommand command = new SqliteCommand();
             command.Connection = connection;
             string sqlExpression = $"UPDATE sessions_data SET wordFull='{WordFull}', " +
-                $"guessedLettersChars='{guessedLettersStr}', score='{score}' " +
+                $"guessedLettersChars='{guessedLettersStr}', score='{score}', asComp='{asComp}' " +
                 $"WHERE session_id=1";
             command.CommandText = sqlExpression;
             command.ExecuteNonQuery();

@@ -43,6 +43,9 @@ namespace WordLord
                 case "ContinueGame":
                     Content = new GamePage(this, true);
                     break;
+                case "StartCompGame":
+                    Content = new GamePage(this,true,"");
+                    break;
                 case "AboutGame":
                     Content = new AboutGamePage(this);
                     break;
@@ -103,12 +106,22 @@ namespace WordLord
                 MessageBoxResult result;
                 if (!asComp)
                 {
-                    result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                    CloseGameMessageBox(result, e);
+                    if (!gamePageChild.game.isFinished)
+                    {
+                        //gamePageChild.game.isPaused = true;
+                        result = MessageBox.Show("Сохранить игру?", "Выход", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                        CloseGameMessageBox(result, e);
+                    }
+                    else
+                    {
+                        gamePageChild.game.isPaused = true;
+                        result = MessageBox.Show("Уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        CloseGameMessageBox(result, e);
+                    }
                 }
                 else
                 {
-                    gamePageChild.game.isPaused = true;
+                    if (!gamePageChild.game.isFinished) gamePageChild.game.isPaused = true;
                     result = MessageBox.Show("Уверены, что хотите выйти?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     CloseCompGameMeggageBox(result, e);
                 }
@@ -124,8 +137,11 @@ namespace WordLord
                     break;
                 case MessageBoxResult.No:
                     e.Cancel = true;
-                    gamePageChild.game.isPaused = false;
-                    gamePageChild.compGuess();
+                    if (!gamePageChild.game.isFinished)
+                    {
+                        gamePageChild.game.isPaused = false;
+                        if (asComp) gamePageChild.compGuess();
+                    }
                     break;
                 default:
                     MessageBox.Show("Некорректный обработчик кнопок!");
@@ -141,6 +157,7 @@ namespace WordLord
                     if (!asComp) gamePageChild.SaveGame();
                     break;
                 case MessageBoxResult.No:
+                    e.Cancel = true;
                     break;
                 case MessageBoxResult.Cancel:
                     e.Cancel = true;
@@ -150,34 +167,5 @@ namespace WordLord
                     break;
             }
         }
-        /*
-                 private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!wordsLoader.HasSameContentAsCurrentList(wordsFromDictionary))
-            {
-                MessageBoxResult result = MessageBox.Show("В словаре есть несохраненные изменения.\n\nСохранить?", "Подтвердить изменения", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                CloseDictionaryMessageBox(result, e);
-            }
-        }
-        public void CloseDictionaryMessageBox(MessageBoxResult result, System.ComponentModel.CancelEventArgs e)
-        {
-
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    wordsLoader.RewriteFileContent(wordsFromDictionary);
-                    break;
-                case MessageBoxResult.No:
-                    break;
-                case MessageBoxResult.Cancel:
-                    e.Cancel = true;
-                    break;
-                default:
-                    MessageBox.Show("Некорректный обработчик кнопок!");
-                    break;
-            }
-        }
-
-         */
     }
 }

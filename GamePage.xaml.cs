@@ -47,7 +47,7 @@ namespace WordLord
         public GamePage(MainWindow win, bool asComp, string t)
         {
             this.asComp = asComp;
-            win.asComp = true;
+            win.asComp = asComp;
             InitializeComponent();
             ParentWindowMain = win;
             WordsLoader wordsLoader = new WordsLoader(ParentWindowMain);
@@ -73,8 +73,9 @@ namespace WordLord
 
         public GamePage(MainWindow win, bool restoreSession = false)
         {
-            this.asComp = false;
             ParentWindowMain = win;
+            this.asComp = false;
+            ParentWindowMain.asComp = false;
             if (restoreSession)
             {
                 game = new GameSession();
@@ -83,6 +84,42 @@ namespace WordLord
                     game.GetSavedSession();
                     InitializeComponent();
                     BuildGamePage();
+                    insertAllGuessedLettersToWord();
+                    if (game.asComp)
+                    {
+                        this.asComp = true;
+                        ParentWindowMain.asComp = true;
+                        letterToGuessTextBlock.IsEnabled = false;
+                        foreach (Letter lt in game.GetGuessedLetters())
+                        {
+
+                            alphabet = alphabet.Replace(lt.letter.ToString(), String.Empty);
+                        }
+                        if (GuessedAllLetters())
+                        {
+                            letterToGuessTextBlock.IsEnabled = false;
+                            game.isFinished = true;
+                        }
+                        else if (game.GetScore() == 0)
+                        {
+                            letterToGuessTextBlock.IsEnabled = false;
+                            game.isFinished = true;
+                        }
+                        else compGuess();
+                    }
+                    else
+                    {
+                        if (GuessedAllLetters())
+                        {
+                            letterToGuessTextBlock.IsEnabled = false;
+                            game.isFinished = true;
+                        }
+                        else if (game.GetScore() == 0)
+                        {
+                            letterToGuessTextBlock.IsEnabled = false;
+                            game.isFinished = true;
+                        }
+                    }
                     ParentWindowMain.gameStarted = true;
                     ParentWindowMain.gamePageChild = this;
                 }
@@ -94,7 +131,25 @@ namespace WordLord
         {
             ParentWindowMain.SetPage("Main");
         }
-        
+
+        public void insertAllGuessedLettersToWord()
+        {
+            foreach (Letter lt in game.GetGuessedLetters())
+            {
+                if (lt.IsChecked())
+                {
+                    var result = WordToGuessStackPanel.Children.OfType<TextBlock>().Where(x => x.Tag.ToString() == lt.letter.ToString()).ToList<TextBlock>();
+
+                    foreach (TextBlock tb in result)
+                    {
+                        tb.Text = lt.letter.ToString();
+                    }
+                }
+
+            }
+
+        }
+
         string alphabet = "абвгдеёжзиклмнопрстуфхцчшщьыъэюя";
         Random random = new Random();
 
@@ -108,12 +163,11 @@ namespace WordLord
                 int temp_ind = random.Next(0, alphabet.Length);
                 letterToGuessTextBlock.Text = alphabet[temp_ind].ToString();
                 alphabet = alphabet.Remove(temp_ind, 1);
-                //while
-                //тест 27 к  13 у второй группе
-                await Task.Delay(1000);
+
+                await Task.Delay(500);
                 letterToGuessPopup.IsOpen = false;
                 char letterTG = letterToGuessTextBlock.Text.ToString().ToLower()[0];
-                if (!game.CheckIfGuessedALetter(letterTG))
+                if (!game.CheckIfGuessedALetter(letterTG) && !game.isPaused)
                 {
                     if (!game.LetterWasTried(letterTG))
                         game.AddToGuessedAndSort(letterTG);
@@ -124,7 +178,7 @@ namespace WordLord
                 }
                 else
                 {
-                    if (!game.LetterWasTried(letterTG))
+                    if (!game.LetterWasTried(letterTG) && !game.isPaused)
                     {
                         game.AddToGuessedAndSort(letterTG, true);
                         foreach (int pos in game.wordToGuess.GetLetterPositions(letterTG))
@@ -141,7 +195,7 @@ namespace WordLord
                     }
                     if (GuessedAllLetters())
                     {
-                        MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                        MessageBoxResult result = MessageBox.Show("Выигрыш!\nСчёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру за компьютер?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
                         ShowEndGameMessageBox(result);
                         game.isFinished = true;
                     }
@@ -149,13 +203,14 @@ namespace WordLord
                 }
                 PrintGuessedWordsWithColors();
                 letterToGuessTextBlock.Text = "";
-                if (game.GetScore() == 0)
+                if (game.GetScore() <= 0)
                 {
-                    MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
+                    MessageBoxResult result = MessageBox.Show("Проигрыш!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру за компьютер?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
                     ShowEndGameMessageBox(result);
                     game.isFinished = true;
                 }
-                await Task.Delay(1000);
+
+                await Task.Delay(500);
             }
         }
 
@@ -203,14 +258,16 @@ namespace WordLord
                         {
                             MessageBoxResult result = MessageBox.Show("Вы выиграли!\nВаш счёт: " + game.GetScore() + "\nЗагаданное слово: " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Выигрыш", MessageBoxButton.YesNo, MessageBoxImage.Information);
                             ShowEndGameMessageBox(result);
+                            game.isFinished = true;
                         }
                     }
                     PrintGuessedWordsWithColors();
                     letterToGuessTextBlock.Text = "";
-                    if (game.GetScore() == 0)
+                    if (game.GetScore() <= 0)
                     {
                         MessageBoxResult result = MessageBox.Show("Вы проиграли!\nЗагаданное слово - " + game.wordToGuess.ToString() + "\nНачать новую игру?", "Проигрыш", MessageBoxButton.YesNo, MessageBoxImage.Error);
                         ShowEndGameMessageBox(result);
+                        game.isFinished = true;
                     }
 
                 }
@@ -239,9 +296,15 @@ namespace WordLord
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    ParentWindowMain.SetPage("StartGame");
+                    if (!asComp)
+                    {
+                        ParentWindowMain.SetPage("StartGame");
+                    }
+                    else ParentWindowMain.SetPage("StartCompGame");
                     break;
                 case MessageBoxResult.No:
+                    game.isPaused = true;
+                    game.isFinished = true;
                     break;
                 default:
                     break;
@@ -327,21 +390,30 @@ namespace WordLord
                     SaveGame();
                     break;
                 case "SaveAndExitToMainMenu":
-                    cts.Cancel(true);
+                    //cts.Cancel(true);
+                    game.isPaused = true;
                     SaveGame();
                     ParentWindowMain.SetPage("Main");
                     break;
                 case "ExitToMainMenu":
+                    game.isPaused = true;
                     MessageBoxResult result = MessageBox.Show("Выйти без сохранения?", "Уверены?", MessageBoxButton.OKCancel, MessageBoxImage.Information);
                     switch (result)
                     {
                         case MessageBoxResult.OK:
                             ParentWindowMain.SetPage("Main");
                             break;
-                        default: break;
+                        case MessageBoxResult.Cancel:
+                            if (!game.isFinished) game.isPaused = false;
+                            if (asComp && !game.isFinished) compGuess();
+                            break;
+                        default:
+                            MessageBox.Show("Ошибка в форме выхода");
+                            break;
                     }
                     break;
                 case "Exit":
+                    game.isPaused = true;
                     ParentWindowMain.Close();
                     break;
                 default: break;

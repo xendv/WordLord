@@ -9,27 +9,21 @@ namespace WordLord
     public class GameSession
     {
         //string User = null;
-        private int score=15;
+        private int score = 15;
         private List<Letter> guessedLetters;
         public Word wordToGuess;
-        public bool isFinished=false;
+        public bool isFinished = false;
         public string error = "";
         public GameSessionLoader gameSessionLoader;
         public bool asComp;
-        public bool isPaused=false;
+        public bool isPaused = false;
 
         public GameSession(string word)
         {
-            if (word == "comp")
-            {
 
-            }
-            else
-            {
-                score = 15;
-                wordToGuess = new Word(word);
-                guessedLetters = new List<Letter>();
-            }
+            score = 15;
+            wordToGuess = new Word(word);
+            guessedLetters = new List<Letter>();
         }
 
         public GameSession()
@@ -87,7 +81,7 @@ namespace WordLord
             }
         }
 
-        public void AddToGuessedAndSort(char letter, bool isGuessed=false)
+        public void AddToGuessedAndSort(char letter, bool isGuessed = false)
         {
             guessedLetters.Add(new Letter(letter, isGuessed));
             SortGuessedLettersByAlphabet();
@@ -107,7 +101,7 @@ namespace WordLord
         {
             score = value;
         }
-        
+
         public void InitializeLoader()
         {
             gameSessionLoader = new GameSessionLoader();
@@ -117,7 +111,9 @@ namespace WordLord
         public void SaveSession()
         {
             //InitializeLoader();
-            gameSessionLoader.SaveGameSessionData(guessedLetters, wordToGuess.WordFull, score.ToString());
+            int aC = 0;
+            if (asComp) aC = 1;
+            gameSessionLoader.SaveGameSessionData(guessedLetters, wordToGuess.WordFull, score.ToString(), aC);
         }
 
         public void GetSavedSession()
@@ -125,6 +121,9 @@ namespace WordLord
             this.wordToGuess = gameSessionLoader.getWordToGuess();
             this.guessedLetters = gameSessionLoader.getGuessedLetters(wordToGuess.letters);
             this.score = gameSessionLoader.getScore();
+            if (gameSessionLoader.getAsComp() == 0)
+                this.asComp = false;
+            else this.asComp = true;
             //this.gameSessionLoader = gSL;
         }
 
